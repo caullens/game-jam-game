@@ -1,0 +1,8 @@
+{
+  "name": "game-jam",
+  "version": "0.0.1",
+  "dependencies": {
+    "express": "^4.15.4",
+    "path": "^0.12.7"
+  }
+}
