@@ -45,7 +45,7 @@ function Maze(size) {
     }
 
     this.current.visited = true;
-    this.current.highlight();
+    //this.current.highlight();
     // STEP 1
     var next = this.current.checkNeighbors();
     if (next) {
