@@ -25,10 +25,9 @@ function Maze(size) {
   var stack = [];
 
   this.setup = function() {
-    createCanvas(600, 600);
+    createCanvas(600,600)
     cols = floor(width/w);
     rows = floor(height/w);
-    frameRate(5);
 
     for (var   j = 0; j < rows; j++) {
       for (var i = 0; i < cols; i++) {
@@ -36,10 +35,7 @@ function Maze(size) {
         grid.push(cell);
       }
     }
-
     current = grid[0];
-
-
   }
 
   this.draw = function() {
