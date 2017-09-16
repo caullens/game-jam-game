@@ -15,6 +15,7 @@ var totalTime
 var badInput
 var optimalMoves
 var depth
+var touchStartX, touchStartY
 
 function preload() {
   assets = new Assets()
@@ -159,12 +160,83 @@ function mouseClicked() {
   }
 }
 
+function touchEnded() {
+  if(state === 'menu') {
+    var buttonClicked = menus.menuButtonClicked(mouseX, mouseY)
+    if(buttonClicked) {
+      startTime = millis()
+      switch(buttonClicked) {
+        case('easy'):
+          state = menus.buttons.easy.state
+          easy = true
+          med = false
+          hard = false
+          break
+        case('normal'):
+          state = menus.buttons.normal.state
+          easy = false
+          med = true
+          hard = false
+          break
+        case('hard'):
+          state = menus.buttons.hard.state
+          easy = false
+          med = false
+          hard = true
+          break
+        default:
+      }
+    }
+  } else if(state === 'summary') {
+    var buttonClicked = menus.summaryButtonClicked(mouseX, mouseY)
+    if(buttonClicked) {
+      state = buttonClicked.state
+      size = startSize
+      newGame()
+      generateMaze()
+    }
+  }
+}
+
+function touchStarted() {
+  touchStartX = mouseX
+  touchStartY = mouseY
+}
+
+function touchMoved() {
+  var diffX = touchStartX - mouseX
+  var diffY = touchStartY - mouseY
+  if(Math.abs(diffX) > Math.abs(diffY)) {
+    if(diffX > 0 && !maze.current.walls[3]) {
+      assets.stepZombio('a')
+      distance++
+      maze.current = maze.grid[maze.current.i + columns*(maze.current.j) - 1]
+      maze.current.highlight(assets.getZombio())
+    } else if(!maze.current.walls[1]){
+      assets.stepZombio('d')
+      distance++
+      maze.current = maze.grid[maze.current.i + columns*(maze.current.j) + 1]
+      maze.current.highlight(assets.getZombio())
+    }
+  } else {
+    if(diffY > 0 && !maze.current.walls[0]) {
+      assets.stepZombio('w')
+      distance++
+      maze.current = maze.grid[maze.current.i + columns*(maze.current.j-1)]
+    } else if(!maze.current.walls[2]) {
+      assets.stepZombio('s')
+      distance++
+      maze.current = maze.grid[maze.current.i + columns*(maze.current.j+1)]
+    }
+  }
+}
+
 function keyTyped() {
   if(key === 'm') {
     if(assets.music.isPlaying()) assets.music.pause()
     else assets.music.play()
   }
-  
+
   if(state === 'game') {
     assets.stepZombio(key)
 

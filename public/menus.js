@@ -42,7 +42,7 @@ function Menus() {
     fill(184, 159, 224)
     textFont("Freckle Face", 50)
     text("Zombio and Ghouliet", 300, 100)
-    image(assets.ghouliet.state[1], 40, 130, 150, 150)
+    image(assets.ghouliet.state[3], 40, 130, 150, 150)
     image(assets.zombio.left[0], 450, 130, 100, 150)
     for(var i = 50; i < 500; i+=100) {
       image(assets.ground.top, i, 262, 100, 100)
