@@ -20,6 +20,8 @@ var newTouch
 
 function preload() {
   assets = new Assets()
+  document.addEventListener('touchstart', function(e) {e.preventDefault()}, false);
+  document.addEventListener('touchmove', function(e) {e.preventDefault()}, false);
 }
 
 function setup() {
