@@ -12,7 +12,7 @@ Out of Time
 - limited amount of time to save Ghouliet from **RUNNING OUT OF TIME**
 
 # Setup:
-- Make sure Node is installed by typing `node -v`, if not go to [here](https://nodejs.org/en/)
+- Make sure Node is installed by typing `node -v`, if not go [here](https://nodejs.org/en/)
 - Type `npm install` to get necessary packages
 - Once everything is installed, type `npm start`
 - Open up your browser of choice and go to `localhost:2000`
