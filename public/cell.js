@@ -13,12 +13,6 @@
 // https://en.wikipedia.org/wiki/Maze_generation_algorithm
 
 function Cell(i, j, w, grid, cols, rows) {
-  // A* info
-  this.f = 0
-  this.g = 0
-  this.h = 0
-  this.neighbors = []
-  this.previous = undefined
 
   this.i = i;
   this.j = j;
@@ -94,35 +88,5 @@ function Cell(i, j, w, grid, cols, rows) {
       return -1;
     }
     return i + j * this.cols;
-  }
-
-  // A* function
-  this.addNeighbors = function(grid) {
-    var i = this.i;
-    var j = this.j;
-    if (i < this.cols - 1) {
-      this.neighbors.push(grid[i + 1][j]);
-    }
-    if (i > 0) {
-      this.neighbors.push(grid[i - 1][j]);
-    }
-    if (j < this.rows - 1) {
-      this.neighbors.push(grid[i][j + 1]);
-    }
-    if (j > 0) {
-      this.neighbors.push(grid[i][j - 1]);
-    }
-    if (i > 0 && j > 0) {
-      this.neighbors.push(grid[i - 1][j - 1]);
-    }
-    if (i < this.cols - 1 && j > 0) {
-      this.neighbors.push(grid[i + 1][j - 1]);
-    }
-    if (i > 0 && j < this.rows - 1) {
-      this.neighbors.push(grid[i - 1][j + 1]);
-    }
-    if (i < this.cols - 1 && j < this.rows - 1) {
-      this.neighbors.push(grid[i + 1][j + 1]);
-    }
   }
 }
