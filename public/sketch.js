@@ -4,11 +4,15 @@ var columns
 var step
 var sprite
 var dir
+var timer
+var startTime
+var startSize
 
 function setup() {
   //frameRate(5);
   state = 'menu'
-  size = 150
+  startSize = 150
+  size = startSize
   maze = new Maze(size)
   maze.setup()
   easyButton = new Button({x: 10, y: 550}, {width: 150, height: 40}, 'draw-maze', "Easy", ['menu'])
@@ -18,6 +22,8 @@ function setup() {
   step = true
   dir = true
   sprite = loadImage('/assets/R1.png')
+  timer = 10
+  createP().addClass('timer')
 }
 
 function draw() {
@@ -32,7 +38,6 @@ function draw() {
 
   if(checkCurrent() && state != 'draw-maze') {
     size = findNextDivisible(width, size)
-    maze.current = undefined
     maze = new Maze(size)
     maze.setup()
     columns = floor(width/size)
@@ -44,17 +49,40 @@ function draw() {
     maze.draw();
     if(maze.current.i === 0 && maze.current.j === 0) {
       state = 'game'
+      startTime = millis()
     }
   } else if (state === 'game') {
     maze.draw()
     maze.current.highlight(sprite)
+    var elapsedTime = (millis() - startTime) / 1000
+    if(elapsedTime >= timer) {
+      size = startSize
+      maze = new Maze(size)
+      maze.setup()
+      columns = floor(width/size)
+      state = 'draw-maze'
+      startTime = millis()
+    }
+    var para = select('.timer')
+    para.value(floor(timer - elapsedTime) + 1)
   }
 }
 
 function mouseClicked() {
-  if(easyButton.isClicked(mouseX, mouseY)) state = easyButton.state
-  if(mediumButton.isClicked(mouseX, mouseY)) state = mediumButton.state
-  if(hardButton.isClicked(mouseX, mouseY)) state = hardButton.state
+  if(easyButton.isClicked(mouseX, mouseY)) {
+    state = easyButton.state
+    timer += 2
+    startTime = millis()
+  }
+  if(mediumButton.isClicked(mouseX, mouseY)) {
+    state = mediumButton.state
+    startTime = millis()
+  }
+  if(hardButton.isClicked(mouseX, mouseY)) {
+    state = hardButton.state
+    timer -= 2
+    startTime = millis()
+  }
 }
 
 function keyTyped() {
