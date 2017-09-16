@@ -23,7 +23,7 @@ function setup() {
   dir = true
   sprite = loadImage('/assets/R1.png')
   timer = 10
-  createP().addClass('timer')
+  createP().addClass('timer').style('display', 'none').position(650, 60)
 }
 
 function draw() {
@@ -51,6 +51,9 @@ function draw() {
       state = 'game'
       startTime = millis()
     }
+    var para = select('.timer')
+    para.show()
+    para.html("Generating maze...")
   } else if (state === 'game') {
     maze.draw()
     maze.current.highlight(sprite)
@@ -64,7 +67,8 @@ function draw() {
       startTime = millis()
     }
     var para = select('.timer')
-    para.value(floor(timer - elapsedTime) + 1)
+    para.show()
+    para.html("Time remaining: " + (floor(timer - elapsedTime) + 1))
   }
 }
 
