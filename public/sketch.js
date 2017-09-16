@@ -7,6 +7,10 @@ var dir
 var timer
 var startTime
 var startSize
+var exitX
+var exitY
+var exitSprite
+var tombStone
 
 function setup() {
   //frameRate(5);
@@ -24,6 +28,10 @@ function setup() {
   sprite = loadImage('/assets/R1.png')
   timer = 10
   createP().addClass('timer').style('display', 'none').position(650, 60)
+  exitX = Math.floor((Math.random() * columns))
+  exitY = Math.floor((Math.random() * columns))
+  exitSprite = loadImage('/assets/E1.png')
+  tombStone = loadImage('/assets/TS.png')
 }
 
 function draw() {
@@ -36,17 +44,20 @@ function draw() {
   mediumButton.render()
   hardButton.render()
 
-  if(checkCurrent() && state != 'draw-maze') {
+  if(atExitTile() && state != 'draw-maze') {
     size = findNextDivisible(width, size)
     maze = new Maze(size)
     maze.setup()
     columns = floor(width/size)
+    exitX = Math.floor((Math.random() * columns))
+    exitY = Math.floor((Math.random() * columns))
     state = 'draw-maze'
   }
 
   if(state === 'menu') {
   } else if (state === 'draw-maze') {
     maze.draw();
+    maze.current.highlight(tombStone)
     if(maze.current.i === 0 && maze.current.j === 0) {
       state = 'game'
       startTime = millis()
@@ -69,6 +80,7 @@ function draw() {
     var para = select('.timer')
     para.show()
     para.html("Time remaining: " + (floor(timer - elapsedTime) + 1))
+    maze.grid[exitX + exitY * columns].highlight(exitSprite)
   }
 }
 
@@ -126,8 +138,8 @@ function keyTyped() {
   }
 }
 
-function checkCurrent() {
-  return maze.current === maze.grid[maze.grid.length - 1]
+function atExitTile() {
+  return (maze.current.i === exitX && maze.current.j === exitY)
 }
 
 function findNextDivisible(divisor, current) {
