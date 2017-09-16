@@ -91,6 +91,7 @@ function draw() {
   } else if (state === 'draw-maze') {
     frameRate(60)
     assets.resetZombioCounter()
+    assets.resetGhoulietCounter()
     maze.draw();
     maze.current.highlight(assets.tombStone)
     if(maze.current.i === 0 && maze.current.j === 0) {

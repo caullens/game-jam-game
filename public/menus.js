@@ -52,10 +52,13 @@ function Menus() {
     }
     if(frameCount%3 === 0) {
       assets.titleStepZombio()
-
+      assets.titleStepGhouliet()
     }
-    this.zombioX--
-    if(this.zombioX <= 150) this.zombioX = 450
+    this.zombioX-=2
+    if(this.zombioX <= 150) {
+      this.zombioX = 450
+      assets.resetGhoulietCounter()
+    }
 
     fill(39, 13, 81)
     rect(50, 50, 500, 450)
@@ -66,7 +69,7 @@ function Menus() {
       image(assets.ground.top, i, 262, 100, 100)
       image(assets.ground.bottom, i, 362, 100, 100)
     }
-    image(assets.ghouliet.state[3], 40, 130, 150, 150)
+    image(assets.ghouliet.titleAnimation[assets.ghouliet.counter], 40, 130, 150, 150)
     image(assets.zombio.titleAnimation[assets.zombio.counter], this.zombioX, 130, 100, 150)
 
     textFont("Freckle Face", 20)
