@@ -89,10 +89,15 @@ function Game() {
 
     var para = select('.timer')
     var levelP = select('.level')
+    var diff = select('.diff')
     para.show()
     levelP.show()
     para.html("Generating maze...")
     levelP.html("Level: " + this.level)
+    diff.show()
+    if(this.easy) diff.html('Difficulty: Easy')
+    else if(this.med) diff.html('Difficulty: Normal')
+    else diff.html('Difficulty: Hardcore')
   }
 
   this.play = function() {

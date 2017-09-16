@@ -15,6 +15,7 @@ function setup() {
   menus = new Menus()
   createP().addClass('timer').style('display', 'none').position(650, 70)
   createP().addClass('level').style('display', 'none').position(650, 30)
+  createP().addClass('diff').style('display', 'none').position(650, 110)
 }
 
 function draw() {
