@@ -16,7 +16,7 @@ var r1
 var r2
 var l1
 var l2
-var e = []
+var e
 var dirt
 var cellTextures
 var level
@@ -33,10 +33,12 @@ function setup() {
   r2 = loadImage('/assets/R2.png')
   l1 = loadImage('/assets/L1.png')
   l2 = loadImage('/assets/L2.png')
-  e.push(loadImage('/assets/E1.png'))
-  e.push(loadImage('/assets/E2.png'))
-  e.push(loadImage('/assets/E3.png'))
-  e.push(loadImage('/assets/E4.png'))
+  e = [
+    loadImage('/assets/E1.png'),
+    loadImage('/assets/E2.png'),
+    loadImage('/assets/E3.png'),
+    loadImage('/assets/E4.png')
+  ]
   cellTextures = {
     dirt : [
     loadImage('/assets/dirt1.png'),
@@ -54,6 +56,8 @@ function setup() {
   easyButton = new Button({x: 10, y: 550}, {width: 150, height: 40}, 'draw-maze', "Easy", ['menu'])
   mediumButton = new Button({x: 225, y: 550}, {width: 150, height: 40}, 'draw-maze', "Normal", ['menu'])
   hardButton = new Button({x: 440, y: 550}, {width: 150, height: 40}, 'draw-maze', "Hardcore", ['menu'])
+  restartButton = new Button({x: 130, y: 550}, {width: 150, height: 40}, 'draw-maze', "Try Again", ['summary'])
+  mainMenuButton = new Button({x: 330, y: 550}, {width: 150, height: 40}, 'menu', "Menu", ['summary'])
   createP().addClass('timer').style('display', 'none').position(650, 60)
 }
 
@@ -81,18 +85,25 @@ function draw() {
   easyButton.update(state)
   mediumButton.update(state)
   hardButton.update(state)
+  restartButton.update(state)
+  mainMenuButton.update(state)
 
   easyButton.render()
   mediumButton.render()
   hardButton.render()
+  restartButton.render()
+  mainMenuButton.render()
 
-  if(atExitTile() && state != 'draw-maze') {
+  if(atExitTile() && state !== 'draw-maze') {
     size = findNextDivisible(600, size)
     generateMaze()
     state = 'draw-maze'
   }
 
   if(state === 'menu') {
+    fill("white")
+    rect(50, 50, 500, 450)
+    
   } else if (state === 'draw-maze') {
     maze.draw();
     maze.current.highlight(tombStone)
@@ -104,6 +115,7 @@ function draw() {
       state = 'game'
       startTime = millis()
     }
+
     var para = select('.timer')
     para.show()
     para.html("Generating maze...")
@@ -112,16 +124,18 @@ function draw() {
     maze.current.highlight(sprite)
     setExitSprite()
     maze.grid[exitX + exitY * columns].highlight(exitSprite)
+
     var elapsedTime = (millis() - startTime) / 1000
     if(elapsedTime >= timer) {
-      size = startSize
-      level = 0
-      generateMaze()
-      state = 'draw-maze'
+      state = 'summary'
     }
+
     var para = select('.timer')
     para.show()
     para.html("Time remaining: " + (floor(timer - elapsedTime) + 1))
+  } else if(state === 'summary') {
+    fill("white")
+    rect(50, 50, 500, 450)
   }
 }
 
@@ -156,6 +170,19 @@ function mouseClicked() {
       med = false
       hard = true
       startTime = millis()
+    }
+  } else if(state === 'summary') {
+    if(restartButton.isClicked(mouseX, mouseY)) {
+      size = startSize
+      level = 0
+      generateMaze()
+      state = restartButton.state
+    }
+    if(mainMenuButton.isClicked(mouseX, mouseY)) {
+      state = mainMenuButton.state
+      size = startSize
+      level = 0
+      generateMaze()
     }
   }
 }

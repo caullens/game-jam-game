@@ -16,16 +16,18 @@ function Button(position, dimensions, state, text, shownStates, imgsrc) {
   this.hidden = false;
   this.shownStates = shownStates;
 
-  this.update = function(state) {
-    if(this.shownStates.includes(state)) {
+  this.update = function(st) {
+    if(this.shownStates.includes(st)) {
       this.hidden = false;
     }
     else this.hidden = true;
   }
 
   this.render = function() {
-    if(this.img) image(this.img, this.pos.x, this.pos.y);
-    else defaultButton(this);
+    if(!this.hidden) {
+      if(this.img) image(this.img, this.pos.x, this.pos.y);
+      else defaultButton(this);
+    }
   }
 
   this.isClicked = function(x, y) {
@@ -34,10 +36,10 @@ function Button(position, dimensions, state, text, shownStates, imgsrc) {
 }
 
 function defaultButton(self) {
-  color('black');
+  fill('white');
   rect(self.pos.x, self.pos.y, self.size.width, self.size.height);
   textAlign(CENTER);
   textFont('Verdana', 30);
-  color('white');
+  fill('black');
   text(self.text, self.pos.x + self.size.width / 2, self.pos.y + 35);
 }
