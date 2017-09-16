@@ -31,10 +31,7 @@ function setup() {
   state = 'menu'
   startSize = 150
   size = startSize
-  level = 0
-  totalTime = 0
-  badInput = 0
-  optimalMoves = 0
+  newGame()
 
   tombStone = loadImage('/assets/TS.png')
   r1 = loadImage('/assets/R1.png')
@@ -73,6 +70,15 @@ function setup() {
   select('.inst').position(10, 700)
 }
 
+function newGame() {
+  level = 0
+  totalTime = 0
+  badInput = 0
+  depth = 0
+  optimalMoves = 0
+  distance = 0
+}
+
 function generateMaze() {
   level = level + 1
   maze = new Maze(size, cellTextures, level)
@@ -107,7 +113,7 @@ function draw() {
   mainMenuButton.render()
 
   var elapsedTime = (millis() - startTime) / 1000
-  if(state !== 'draw-maze' && elapsedTime >= timer) {
+  if(state !== 'draw-maze' && state !== 'menu' && elapsedTime >= timer) {
     if(state !== 'summary') {
       totalTime += elapsedTime
       badInput += depth
@@ -171,7 +177,7 @@ function draw() {
     text('Time survived: ' + floor(totalTime) + ' seconds', 120, 250)
     text('Distance travelled: ' + distance, 120, 300)
     text('Invalid moves: ' + badInput, 120, 350)
-    text('Accuracy: ' + floor((optimalMoves / (badInput+distance)) * 100) + '%', 120, 400)
+    text('Accuracy: ' + floor(optimalMoves / (optimalMoves + badInput) * 100) + '%', 120, 400)
   }
 }
 
@@ -209,23 +215,15 @@ function mouseClicked() {
     }
   } else if(state === 'summary') {
     if(restartButton.isClicked(mouseX, mouseY)) {
-      distance = 0
       size = startSize
-      totalTime = 0
-      level = 0
-      optimalMoves = 0
-      badInput = 0
+      newGame()
       generateMaze()
       state = restartButton.state
     }
     if(mainMenuButton.isClicked(mouseX, mouseY)) {
-      distance = 0
-      optimalMoves = 0
       state = mainMenuButton.state
-      totalTime = 0
-      badInput = 0
       size = startSize
-      level = 0
+      newGame()
       generateMaze()
     }
   }
