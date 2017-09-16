@@ -24,11 +24,7 @@ function setup() {
   newGame()
   generateMaze()
   distance = 0
-  easyButton = new Button({x: 10, y: 550}, {width: 150, height: 40}, 'draw-maze', "Easy", ['menu'])
-  mediumButton = new Button({x: 225, y: 550}, {width: 150, height: 40}, 'draw-maze', "Normal", ['menu'])
-  hardButton = new Button({x: 440, y: 550}, {width: 150, height: 40}, 'draw-maze', "Hardcore", ['menu'])
-  restartButton = new Button({x: 130, y: 550}, {width: 150, height: 40}, 'draw-maze', "Try Again", ['summary'])
-  mainMenuButton = new Button({x: 330, y: 550}, {width: 150, height: 40}, 'menu', "Menu", ['summary'])
+  menus = new Menus()
   createP().addClass('timer').style('display', 'none').position(650, 70)
   createP().addClass('level').style('display', 'none').position(650, 30)
 }
@@ -64,23 +60,13 @@ function generateMaze() {
 
 function draw() {
   background(76, 32, 147)
-  easyButton.update(state)
-  mediumButton.update(state)
-  hardButton.update(state)
-  restartButton.update(state)
-  mainMenuButton.update(state)
-
-  easyButton.render()
-  mediumButton.render()
-  hardButton.render()
-  restartButton.render()
-  mainMenuButton.render()
+  menus.updateButtons(state)
+  menus.renderButtons()
 
   var elapsedTime = (millis() - startTime) / 1000
   if(state !== 'draw-maze' && state !== 'menu' && elapsedTime >= timer) {
     if(state !== 'summary') {
       totalTime += elapsedTime
-
     }
     state = 'summary'
   }
@@ -93,7 +79,7 @@ function draw() {
   }
 
   if(state === 'menu') {
-    renderMainMenu()
+    menus.renderMainMenu()
   } else if (state === 'draw-maze') {
     maze.draw();
     maze.current.highlight(assets.tombStone)
@@ -127,83 +113,41 @@ function draw() {
     para.html((floor(timer - elapsedTime) + 1) + ' seconds remaining')
     levelP.html("Level: " + level)
   } else if(state === 'summary') {
-    renderSummaryPage()
+    menus.renderSummaryMenu()
   }
-}
-
-function renderMainMenu() {
-  fill(39, 13, 81)
-  rect(50, 50, 500, 450)
-  fill(184, 159, 224)
-  textFont("Freckle Face", 50)
-  text("Zombio and Ghouliet", 300, 100)
-  image(assets.ghouliet.state[1], 40, 130, 150, 150)
-  image(assets.zombio.left[0], 450, 130, 100, 150)
-  for(var i = 50; i < 500; i+=100) {
-    image(assets.ground.top, i, 262, 100, 100)
-    image(assets.ground.bottom, i, 362, 100, 100)
-  }
-
-  textFont("Freckle Face", 20)
-  text("Help Zombio get to Ghouliet before she...", 300, 340)
-  textFont("Freckle Face", 40)
-  text("RUNS OUT OF TIME!", 300, 400)
-
-  textFont("Freckle Face", 25)
-  text("Use WASD to move Zombio", 300, 480)
-}
-
-function renderSummaryPage() {
-  fill(39, 13, 81)
-  noStroke()
-  rect(50, 50, 500, 450)
-  select('.timer').style('display', 'none')
-  select('.level').style('display', 'none')
-  fill(184, 159, 224)
-  textFont("Freckle Face", 50)
-  text('Game Over', 300, 100)
-  textFont("Freckle Face", 30)
-  text('Stats:', 120, 150)
-  textAlign(LEFT)
-  text('Levels beaten: ' + (level-1), 120, 200)
-  text('Time survived: ' + floor(totalTime) + ' seconds', 120, 250)
-  text('Distance travelled: ' + distance, 120, 300)
-  text('Invalid moves: ' + badInput, 120, 350)
-  text('Accuracy: ' + floor(optimalMoves / (optimalMoves + badInput) * 100) + '%', 120, 400)
 }
 
 function mouseClicked() {
   if(state === 'menu') {
-    if(easyButton.isClicked(mouseX, mouseY)) {
-      state = easyButton.state
-      easy = true
-      med = false
-      hard = false
+    var buttonClicked = menus.menuButtonClicked(mouseX, mouseY)
+    if(buttonClicked) {
       startTime = millis()
-    }
-    if(mediumButton.isClicked(mouseX, mouseY)) {
-      state = mediumButton.state
-      easy = false
-      med = true
-      hard = false
-      startTime = millis()
-    }
-    if(hardButton.isClicked(mouseX, mouseY)) {
-      state = hardButton.state
-      easy = false
-      med = false
-      hard = true
-      startTime = millis()
+      switch(buttonClicked) {
+        case('easy'):
+          state = menus.buttons.easy.state
+          easy = true
+          med = false
+          hard = false
+          break
+        case('normal'):
+          state = menus.buttons.normal.state
+          easy = false
+          med = true
+          hard = false
+          break
+        case('hard'):
+          state = menus.buttons.hard.state
+          easy = false
+          med = false
+          hard = true
+          break
+        default:
+      }
     }
   } else if(state === 'summary') {
-    if(restartButton.isClicked(mouseX, mouseY)) {
-      size = startSize
-      newGame()
-      generateMaze()
-      state = restartButton.state
-    }
-    if(mainMenuButton.isClicked(mouseX, mouseY)) {
-      state = mainMenuButton.state
+    var buttonClicked = menus.summaryButtonClicked(mouseX, mouseY)
+    if(buttonClicked) {
+      state = buttonClicked.state
       size = startSize
       newGame()
       generateMaze()
