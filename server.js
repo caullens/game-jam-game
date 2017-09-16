@@ -19,4 +19,8 @@ app.get('/cell.js', (req, res) => {
   res.sendFile(path.join(__dirname + '/public/cell.js'))
 })
 
+app.get('/maze.js', (req, res) => {
+  res.sendFile(path.join(__dirname + '/public/maze.js'))
+})
+
 app.listen(2000)
