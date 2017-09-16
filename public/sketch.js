@@ -4,6 +4,9 @@ var columns
 var step
 var sprite
 var dir
+var exitX
+var exitY
+var exitSprite
 
 function setup() {
   //frameRate(5);
@@ -18,6 +21,9 @@ function setup() {
   step = true
   dir = true
   sprite = loadImage('/assets/R1.png')
+  exitX = Math.floor((Math.random() * columns) + 1)
+  exitY = Math.floor((Math.random() * columns) + 1)
+  exitSprite = loadImage('/assets/E1.png')
 }
 
 function draw() {
@@ -30,12 +36,14 @@ function draw() {
   mediumButton.render()
   hardButton.render()
 
-  if(checkCurrent() && state != 'draw-maze') {
+  if(atExitTile() && state != 'draw-maze') {
     size = findNextDivisible(width, size)
     maze.current = undefined
     maze = new Maze(size)
     maze.setup()
     columns = floor(width/size)
+    exitX = Math.floor((Math.random() * columns) + 1)
+    exitY = Math.floor((Math.random() * columns) + 1)
     state = 'draw-maze'
   }
 
@@ -48,6 +56,7 @@ function draw() {
   } else if (state === 'game') {
     maze.draw()
     maze.current.highlight(sprite)
+    maze.grid[exitX + exitY * columns].highlight(exitSprite)
   }
 }
 
@@ -94,8 +103,8 @@ function keyTyped() {
   }
 }
 
-function checkCurrent() {
-  return maze.current === maze.grid[maze.grid.length - 1]
+function atExitTile() {
+  return (maze.current.i === exitX && maze.current.j === exitY)
 }
 
 function findNextDivisible(divisor, current) {
