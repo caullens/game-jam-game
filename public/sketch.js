@@ -7,6 +7,7 @@ var dir
 var exitX
 var exitY
 var exitSprite
+var tombStone
 
 function setup() {
   //frameRate(5);
@@ -24,6 +25,7 @@ function setup() {
   exitX = Math.floor((Math.random() * columns))
   exitY = Math.floor((Math.random() * columns))
   exitSprite = loadImage('/assets/E1.png')
+  tombStone = loadImage('/assets/TS.png')
 }
 
 function draw() {
@@ -50,6 +52,7 @@ function draw() {
   if(state === 'menu') {
   } else if (state === 'draw-maze') {
     maze.draw();
+    maze.current.highlight(tombStone)
     if(maze.current.i === 0 && maze.current.j === 0) {
       state = 'game'
     }
