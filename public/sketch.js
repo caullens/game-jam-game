@@ -160,6 +160,11 @@ function mouseClicked() {
 }
 
 function keyTyped() {
+  if(key === 'm') {
+    if(assets.music.isPlaying()) assets.music.pause()
+    else assets.music.play()
+  }
+  
   if(state === 'game') {
     assets.stepZombio(key)
 
