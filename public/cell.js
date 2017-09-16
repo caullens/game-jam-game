@@ -23,14 +23,16 @@ function Cell(i, j, w, grid, cols, rows) {
   this.walls = [true, true, true, true];
   this.visited = false;
 
+  var dirtTexture = rouletSelect()
 
-  var dirt = [
-    loadImage('/assets/dirt1.png'),
-    loadImage('/assets/dirt2.png'),
-    loadImage('/assets/dirt3.png'),
-    loadImage('/assets/dirt4.png')
-  ]
-  var dirtTexture = Math.floor(Math.random() * 4)
+  function rouletSelect() {
+    var weights = [0.7, 0.1, 0.1, 0.1]
+    var rand = Math.random()
+    for(var i = 0; i < 4; i++) {
+      rand -= weights[i]
+      if(rand <= 0) return i
+    }
+  }
 
   this.checkNeighbors = function() {
     var neighbors = [];

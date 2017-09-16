@@ -16,6 +16,7 @@ var r2
 var l1
 var l2
 var e = []
+var dirt
 
 function setup() {
   //frameRate(5);
@@ -32,6 +33,12 @@ function setup() {
   e.push(loadImage('/assets/E2.png'))
   e.push(loadImage('/assets/E3.png'))
   e.push(loadImage('/assets/E4.png'))
+  dirt = [
+    loadImage('/assets/dirt1.png'),
+    loadImage('/assets/dirt2.png'),
+    loadImage('/assets/dirt3.png'),
+    loadImage('/assets/dirt4.png')
+  ]
 
   generateMaze()
   easyButton = new Button({x: 10, y: 550}, {width: 150, height: 40}, 'draw-maze', "Easy", ['menu'])
@@ -42,7 +49,7 @@ function setup() {
 }
 
 function generateMaze() {
-  maze = new Maze(size)
+  maze = new Maze(size, dirt)
   maze.setup()
   columns = floor(width/size)
   startTime = millis()
