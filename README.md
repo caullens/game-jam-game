@@ -22,4 +22,5 @@ Out of Time
 - Tiles and character sprites from [GameArt2D](http://www.gameart2d.com/freebies.html)
 - Zombie sound effects from [SoundBible](http://soundbible.com/)
 - Font from [Google Fonts](https://fonts.google.com/specimen/Freckle+Face)
+- Maze generation adapted from [Dan Shiffman's Maze Generator](https://github.com/CodingTrain/Rainbow-Code/tree/master/CodingChallenges/CC_10_Maze_DFS_p5.js)
 - Song by Caullen Sasnett made at [BeepBox](beepbox.co)
