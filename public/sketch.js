@@ -109,19 +109,21 @@ function setExitSprite() {
 }
 
 function mouseClicked() {
-  if(easyButton.isClicked(mouseX, mouseY)) {
-    state = easyButton.state
-    timer += 2
-    startTime = millis()
-  }
-  if(mediumButton.isClicked(mouseX, mouseY)) {
-    state = mediumButton.state
-    startTime = millis()
-  }
-  if(hardButton.isClicked(mouseX, mouseY)) {
-    state = hardButton.state
-    timer -= 2
-    startTime = millis()
+  if(state === 'menu') {
+    if(easyButton.isClicked(mouseX, mouseY)) {
+      state = easyButton.state
+      timer += 2
+      startTime = millis()
+    }
+    if(mediumButton.isClicked(mouseX, mouseY)) {
+      state = mediumButton.state
+      startTime = millis()
+    }
+    if(hardButton.isClicked(mouseX, mouseY)) {
+      state = hardButton.state
+      timer -= 2
+      startTime = millis()
+    }
   }
 }
 
