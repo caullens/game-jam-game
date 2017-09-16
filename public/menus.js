@@ -40,7 +40,7 @@ function Menus() {
     size: 40,
     growing: true
   }
-  this.zombioX = 450
+  this.zombeoX = 450
   this.renderMainMenu = function() {
     frameRate(45)
     if(this.mainMenuFont.growing) {
@@ -51,12 +51,12 @@ function Menus() {
       if(this.mainMenuFont.size <= 30) this.mainMenuFont.growing = true
     }
     if(frameCount%3 === 0) {
-      assets.titleStepZombio()
+      assets.titleStepZombeo()
       assets.titleStepGhouliet()
     }
-    this.zombioX-=2
-    if(this.zombioX <= 150) {
-      this.zombioX = 450
+    this.zombeoX-=2
+    if(this.zombeoX <= 150) {
+      this.zombeoX = 450
       assets.resetGhoulietCounter()
     }
 
@@ -64,21 +64,21 @@ function Menus() {
     rect(50, 50, 500, 450)
     fill(184, 159, 224)
     textFont("Freckle Face", 50)
-    text("Zombio and Ghouliet", 300, 100)
+    text("Zombeo and Ghouliet", 300, 100)
     for(var i = 50; i < 500; i+=100) {
       image(assets.ground.top, i, 262, 100, 100)
       image(assets.ground.bottom, i, 362, 100, 100)
     }
     image(assets.ghouliet.titleAnimation[assets.ghouliet.counter], 40, 130, 150, 150)
-    image(assets.zombio.titleAnimation[assets.zombio.counter], this.zombioX, 130, 100, 150)
+    image(assets.zombeo.titleAnimation[assets.zombeo.counter], this.zombeoX, 130, 100, 150)
 
     textFont("Freckle Face", 20)
-    text("Help Zombio get to Ghouliet before she...", 300, 340)
+    text("Help Zombeo get to Ghouliet before she...", 300, 340)
     textFont("Freckle Face", this.mainMenuFont.size)
     text("RUNS OUT OF TIME!", 300, 400)
 
     textFont("Freckle Face", 25)
-    text("Use WASD to move Zombio", 300, 480)
+    text("Use WASD to move Zombeo", 300, 480)
   }
 
   this.renderSummaryMenu = function() {

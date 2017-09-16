@@ -41,7 +41,7 @@ function Game() {
 
     this.step = true
     this.dir = true
-    assets.resetZombioCounter()
+    assets.resetZombeoCounter()
     this.exitX = Math.floor((Math.random() * this.columns))
     this.exitY = Math.floor((Math.random() * this.columns))
     while(dist(
@@ -72,7 +72,7 @@ function Game() {
   }
 
   this.drawMaze = function() {
-    assets.resetZombioCounter()
+    assets.resetZombeoCounter()
     assets.resetGhoulietCounter()
     this.maze.draw()
     this.maze.current.highlight(assets.tombStone)
@@ -97,7 +97,7 @@ function Game() {
 
   this.play = function() {
     this.maze.draw()
-    this.maze.current.highlight(assets.getZombio())
+    this.maze.current.highlight(assets.getZombeo())
     this.maze.grid[this.exitX + this.exitY * this.columns].highlight(assets.getGhouliet())
     if(frameCount%4 === 0) assets.titleStepGhouliet()
 
@@ -113,7 +113,7 @@ function Game() {
   this.moveRight = function() {
     this.distance++
     this.maze.current = this.maze.grid[this.maze.current.i + this.columns*(this.maze.current.j) + 1]
-    this.maze.current.highlight(assets.getZombio())
+    this.maze.current.highlight(assets.getZombeo())
   }
 
   this.moveUp = function() {
@@ -129,7 +129,7 @@ function Game() {
   this.moveLeft = function() {
     this.distance++
     this.maze.current = this.maze.grid[this.maze.current.i + this.columns*(this.maze.current.j) - 1]
-    this.maze.current.highlight(assets.getZombio())
+    this.maze.current.highlight(assets.getZombeo())
   }
 
   this.atExitTile = function() {

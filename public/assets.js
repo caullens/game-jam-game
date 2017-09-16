@@ -1,7 +1,7 @@
 function Assets() {
   this.music = loadSound('/assets/ghouliet.wav')
 
-  this.zombio = {
+  this.zombeo = {
     counter: 0,
     direction: 'right',
     right: [loadImage('/assets/R1.png'), loadImage('/assets/R2.png')],
@@ -62,31 +62,31 @@ function Assets() {
     this.ghouliet.counter = 0
   }
 
-  this.resetZombioCounter = function() {
-    this.zombio.counter = 0
+  this.resetZombeoCounter = function() {
+    this.zombeo.counter = 0
   }
 
-  this.stepZombio = function(key) {
-    if(key === 'a') this.zombio.direction = 'left'
-    else if(key === 'd') this.zombio.direction = 'right'
-    if(this.zombio.counter === 0) this.zombio.counter = 1
-    else this.zombio.counter = 0
+  this.stepZombeo = function(key) {
+    if(key === 'a') this.zombeo.direction = 'left'
+    else if(key === 'd') this.zombeo.direction = 'right'
+    if(this.zombeo.counter === 0) this.zombeo.counter = 1
+    else this.zombeo.counter = 0
   }
 
   this.titleStepGhouliet = function() {
     if(this.ghouliet.counter < 11) this.ghouliet.counter += 1
   }
 
-  this.titleStepZombio = function() {
-    this.zombio.counter += 1
-    if(this.zombio.counter >= 10) {
-      this.resetZombioCounter()
+  this.titleStepZombeo = function() {
+    this.zombeo.counter += 1
+    if(this.zombeo.counter >= 10) {
+      this.resetZombeoCounter()
     }
   }
 
-  this.getZombio = function() {
-    if(this.zombio.direction === 'left') return this.zombio.left[this.zombio.counter]
-    else return this.zombio.right[this.zombio.counter]
+  this.getZombeo = function() {
+    if(this.zombeo.direction === 'left') return this.zombeo.left[this.zombeo.counter]
+    else return this.zombeo.right[this.zombeo.counter]
   }
 
   this.getGhouliet = function() {

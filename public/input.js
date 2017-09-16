@@ -66,7 +66,7 @@ function Input() {
     }
 
     if(game.state === 'game') {
-      assets.stepZombio(key)
+      assets.stepZombeo(key)
 
       if(key === 'w' && !game.maze.current.walls[0]) {
         game.moveUp()
@@ -95,18 +95,18 @@ function Input() {
     var diffY = this.touchStartY - mouseY
     if(Math.abs(diffX) > Math.abs(diffY)) {
       if(diffX > 0 && !game.maze.current.walls[3]) {
-        assets.stepZombio('a')
+        assets.stepZombeo('a')
         game.moveLeft()
       } else if(!game.maze.current.walls[1]){
-        assets.stepZombio('d')
+        assets.stepZombeo('d')
         game.moveRight()
       }
     } else {
       if(diffY > 0 && !game.maze.current.walls[0]) {
-        assets.stepZombio('w')
+        assets.stepZombeo('w')
         game.moveUp()
       } else if(!game.maze.current.walls[2]) {
-        assets.stepZombio('s')
+        assets.stepZombeo('s')
         game.moveDown()
       }
     }

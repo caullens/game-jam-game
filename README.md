@@ -4,7 +4,7 @@ A game created at the 24 hour Amateur Game Jam at Kansas State University Fall 2
 # Theme:
 Out of Time
 
-# A timed maze puzzle
+# Zombeo and Ghouliet: A timed maze puzzle
 
 # Mechanics:
 - 2d maze game with top-down view
