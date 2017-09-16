@@ -37,9 +37,9 @@ function Button(position, dimensions, state, text, shownStates, imgsrc) {
 
 function defaultButton(self) {
   fill('white');
+  textFont('Freckle Face', 30)
   rect(self.pos.x, self.pos.y, self.size.width, self.size.height);
-  textAlign(CENTER);
-  textFont('Verdana', 30);
+  textAlign(CENTER, CENTER);
   fill('black');
-  text(self.text, self.pos.x + self.size.width / 2, self.pos.y + 35);
+  text(self.text, self.pos.x + self.size.width / 2, self.pos.y + 20);
 }

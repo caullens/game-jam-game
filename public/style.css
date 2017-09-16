@@ -9,7 +9,8 @@ h1 {
 }
 
 * {
-  font-family: 'Roboto', sans-serif;
+  font-family: 'Freckle Face', sans-serif;
+  letter-spacing: 2px;
 }
 
 .timer {

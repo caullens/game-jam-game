@@ -120,7 +120,7 @@ function draw() {
   if(state !== 'draw-maze' && state !== 'menu' && elapsedTime >= timer) {
     if(state !== 'summary') {
       totalTime += elapsedTime
-      badInput += depth
+
     }
     state = 'summary'
   }
