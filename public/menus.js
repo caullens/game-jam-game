@@ -36,7 +36,21 @@ function Menus() {
     return undefined
   }
 
+  this.mainMenuFont = {
+    size: 40,
+    growing: true
+  }
   this.renderMainMenu = function() {
+    frameRate(45)
+
+    if(this.mainMenuFont.growing) {
+      this.mainMenuFont.size += 1
+      if(this.mainMenuFont.size >= 50) this.mainMenuFont.growing = false
+    } else {
+      this.mainMenuFont.size -= 1
+      if(this.mainMenuFont.size <= 30) this.mainMenuFont.growing = true
+    }
+
     fill(39, 13, 81)
     rect(50, 50, 500, 450)
     fill(184, 159, 224)
@@ -51,7 +65,7 @@ function Menus() {
 
     textFont("Freckle Face", 20)
     text("Help Zombio get to Ghouliet before she...", 300, 340)
-    textFont("Freckle Face", 40)
+    textFont("Freckle Face", this.mainMenuFont.size)
     text("RUNS OUT OF TIME!", 300, 400)
 
     textFont("Freckle Face", 25)
