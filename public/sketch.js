@@ -52,8 +52,8 @@ function setup() {
 
   generateMaze()
   easyButton = new Button({x: 10, y: 550}, {width: 150, height: 40}, 'draw-maze', "Easy", ['menu'])
-  mediumButton = new Button({x: 225, y: 550}, {width: 150, height: 40}, 'draw-maze', "Medium", ['menu'])
-  hardButton = new Button({x: 440, y: 550}, {width: 150, height: 40}, 'draw-maze', "Hard", ['menu'])
+  mediumButton = new Button({x: 225, y: 550}, {width: 150, height: 40}, 'draw-maze', "Normal", ['menu'])
+  hardButton = new Button({x: 440, y: 550}, {width: 150, height: 40}, 'draw-maze', "Hardcore", ['menu'])
   createP().addClass('timer').style('display', 'none').position(650, 60)
 }
 
@@ -98,7 +98,7 @@ function draw() {
     maze.current.highlight(tombStone)
     if(maze.current.i === 0 && maze.current.j === 0) {
       search = new Search(maze)
-      timer = floor(search.findExit(exitX, exitY)/3)
+      timer = floor(search.findExit(exitX, exitY)/level)
       if(easy) timer = ceil(timer * 1.5)
       else if(hard) timer = ceil(timer * 0.5)
       state = 'game'
