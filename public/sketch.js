@@ -85,6 +85,7 @@ function generateMaze() {
   maze.setup()
   columns = floor(width/size)
   startTime = millis()
+  depth = 0
 
   step = true
   dir = true
@@ -116,7 +117,7 @@ function draw() {
   if(state !== 'draw-maze' && state !== 'menu' && elapsedTime >= timer) {
     if(state !== 'summary') {
       totalTime += elapsedTime
-      badInput += depth
+
     }
     state = 'summary'
   }
@@ -177,7 +178,7 @@ function draw() {
     text('Time survived: ' + floor(totalTime) + ' seconds', 120, 250)
     text('Distance travelled: ' + distance, 120, 300)
     text('Invalid moves: ' + badInput, 120, 350)
-    text('Accuracy: ' + floor(optimalMoves / (optimalMoves + badInput) * 100) + '%', 120, 400)
+    text('Accuracy: ' + floor(optimalMoves / (distance + badInput) * 100) + '%', 120, 400)
   }
 }
 
@@ -267,6 +268,7 @@ function keyTyped() {
       maze.current.highlight(sprite)
     } else if(key === 'w' || key === 'a' || key === 's' || key === 'd') {
       badInput++
+      console.log("Bad input detected")
     }
     step = !step
   }
