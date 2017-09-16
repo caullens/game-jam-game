@@ -40,9 +40,9 @@ function Menus() {
     size: 40,
     growing: true
   }
+  this.zombioX = 450
   this.renderMainMenu = function() {
     frameRate(45)
-
     if(this.mainMenuFont.growing) {
       this.mainMenuFont.size += 1
       if(this.mainMenuFont.size >= 50) this.mainMenuFont.growing = false
@@ -50,18 +50,24 @@ function Menus() {
       this.mainMenuFont.size -= 1
       if(this.mainMenuFont.size <= 30) this.mainMenuFont.growing = true
     }
+    if(frameCount%3 === 0) {
+      assets.titleStepZombio()
+
+    }
+    this.zombioX--
+    if(this.zombioX <= 150) this.zombioX = 450
 
     fill(39, 13, 81)
     rect(50, 50, 500, 450)
     fill(184, 159, 224)
     textFont("Freckle Face", 50)
     text("Zombio and Ghouliet", 300, 100)
-    image(assets.ghouliet.state[3], 40, 130, 150, 150)
-    image(assets.zombio.left[0], 450, 130, 100, 150)
     for(var i = 50; i < 500; i+=100) {
       image(assets.ground.top, i, 262, 100, 100)
       image(assets.ground.bottom, i, 362, 100, 100)
     }
+    image(assets.ghouliet.state[3], 40, 130, 150, 150)
+    image(assets.zombio.titleAnimation[assets.zombio.counter], this.zombioX, 130, 100, 150)
 
     textFont("Freckle Face", 20)
     text("Help Zombio get to Ghouliet before she...", 300, 340)

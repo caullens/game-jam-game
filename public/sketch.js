@@ -90,6 +90,7 @@ function draw() {
     menus.renderMainMenu()
   } else if (state === 'draw-maze') {
     frameRate(60)
+    assets.resetZombioCounter()
     maze.draw();
     maze.current.highlight(assets.tombStone)
     if(maze.current.i === 0 && maze.current.j === 0) {

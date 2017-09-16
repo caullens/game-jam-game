@@ -5,7 +5,19 @@ function Assets() {
     counter: 0,
     direction: 'right',
     right: [loadImage('/assets/R1.png'), loadImage('/assets/R2.png')],
-    left: [loadImage('/assets/L1.png'), loadImage('/assets/L2.png')]
+    left: [loadImage('/assets/L1.png'), loadImage('/assets/L2.png')],
+    titleAnimation: [
+      loadImage('/assets/W1.png'),
+      loadImage('/assets/W2.png'),
+      loadImage('/assets/W3.png'),
+      loadImage('/assets/W4.png'),
+      loadImage('/assets/W5.png'),
+      loadImage('/assets/W6.png'),
+      loadImage('/assets/W7.png'),
+      loadImage('/assets/W8.png'),
+      loadImage('/assets/W9.png'),
+      loadImage('/assets/W10.png'),
+    ]
   }
 
   this.ghouliet = {
@@ -51,6 +63,11 @@ function Assets() {
     else if(key === 'd') this.zombio.direction = 'right'
     if(this.zombio.counter === 0) this.zombio.counter = 1
     else this.zombio.counter = 0
+  }
+
+  this.titleStepZombio = function() {
+    this.zombio.counter += 1
+    if(this.zombio.counter >= 10) this.resetZombioCounter()
   }
 
   this.setGhoulietState = function(elapsedTime, timer) {
