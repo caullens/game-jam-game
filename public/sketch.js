@@ -111,11 +111,12 @@ function draw() {
     levelP.show()
     para.html("Generating maze...")
     levelP.html("Level: " + level)
+
   } else if (state === 'game') {
     maze.draw()
     maze.current.highlight(assets.getZombio())
-    assets.setGhoulietState(elapsedTime, timer)
     maze.grid[exitX + exitY * columns].highlight(assets.getGhouliet())
+    if(frameCount%4 === 0) assets.titleStepGhouliet()
 
     var para = select('.timer')
     var levelP = select('.level')

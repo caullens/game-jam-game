@@ -22,12 +22,6 @@ function Assets() {
 
   this.ghouliet = {
     counter: 0,
-    state: [
-      loadImage('/assets/E1.png'),
-      loadImage('/assets/E2.png'),
-      loadImage('/assets/E3.png'),
-      loadImage('/assets/E4.png')
-    ],
     titleAnimation: [
       loadImage('/assets/D1.png'),
       loadImage('/assets/D2.png'),
@@ -88,22 +82,6 @@ function Assets() {
     if(this.zombio.counter >= 10) {
       this.resetZombioCounter()
     }
-  }
-
-  this.setGhoulietState = function(elapsedTime, timer) {
-    var qTime = ceil(timer/12)
-    if((floor(timer-elapsedTime)+1) > timer-qTime) this.ghouliet.counter = 0
-    else if((floor(timer-elapsedTime)+1) > timer-2*qTime) this.ghouliet.counter = 1
-    else if((floor(timer-elapsedTime)+1) > timer-3*qTime) this.ghouliet.counter = 2
-    else if((floor(timer-elapsedTime)+1) > timer-4*qTime) this.ghouliet.counter = 3
-    else if((floor(timer-elapsedTime)+1) > timer-5*qTime) this.ghouliet.counter = 4
-    else if((floor(timer-elapsedTime)+1) > timer-6*qTime) this.ghouliet.counter = 5
-    else if((floor(timer-elapsedTime)+1) > timer-7*qTime) this.ghouliet.counter = 6
-    else if((floor(timer-elapsedTime)+1) > timer-8*qTime) this.ghouliet.counter = 7
-    else if((floor(timer-elapsedTime)+1) > timer-9*qTime) this.ghouliet.counter = 8
-    else if((floor(timer-elapsedTime)+1) > timer-10*qTime) this.ghouliet.counter = 9
-    else if((floor(timer-elapsedTime)+1) > timer-11*qTime) this.ghouliet.counter = 10
-    else this.ghouliet.counter = 11
   }
 
   this.getZombio = function() {
