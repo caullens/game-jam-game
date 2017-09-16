@@ -1,4 +1,5 @@
 A game created at the 24 hour Amateur Game Jam at Kansas State University Fall 2017
+**Made by David Freeman and Caullen Sasnett**
 
 # Theme:
 Out of Time
@@ -16,3 +17,9 @@ Out of Time
 - Type `npm install` to get necessary packages
 - Once everything is installed, type `npm start`
 - Open up your browser of choice and go to `localhost:2000`
+
+# Assets:
+- Tiles and character sprites from [GameArt2D](http://www.gameart2d.com/freebies.html)
+- Zombie sound effects from [SoundBible](http://soundbible.com/)
+- Font from [Google Fonts](https://fonts.google.com/specimen/Freckle+Face)
+- Song by Caullen Sasnett made at [BeepBox](beepbox.co)
