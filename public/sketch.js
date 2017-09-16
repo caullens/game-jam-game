@@ -21,8 +21,8 @@ function setup() {
   step = true
   dir = true
   sprite = loadImage('/assets/R1.png')
-  exitX = Math.floor((Math.random() * columns) + 1)
-  exitY = Math.floor((Math.random() * columns) + 1)
+  exitX = Math.floor((Math.random() * columns))
+  exitY = Math.floor((Math.random() * columns))
   exitSprite = loadImage('/assets/E1.png')
 }
 
@@ -42,8 +42,8 @@ function draw() {
     maze = new Maze(size)
     maze.setup()
     columns = floor(width/size)
-    exitX = Math.floor((Math.random() * columns) + 1)
-    exitY = Math.floor((Math.random() * columns) + 1)
+    exitX = Math.floor((Math.random() * columns))
+    exitY = Math.floor((Math.random() * columns))
     state = 'draw-maze'
   }
 
