@@ -20,6 +20,11 @@ var e
 var dirt
 var cellTextures
 var level
+var distance
+var totalTime
+var badInput
+var optimalMoves
+var depth
 
 function setup() {
   //frameRate(5);
@@ -27,6 +32,9 @@ function setup() {
   startSize = 150
   size = startSize
   level = 0
+  totalTime = 0
+  badInput = 0
+  optimalMoves = 0
 
   tombStone = loadImage('/assets/TS.png')
   r1 = loadImage('/assets/R1.png')
@@ -53,6 +61,7 @@ function setup() {
   }
 
   generateMaze()
+  distance = 0
   easyButton = new Button({x: 10, y: 550}, {width: 150, height: 40}, 'draw-maze', "Easy", ['menu'])
   mediumButton = new Button({x: 225, y: 550}, {width: 150, height: 40}, 'draw-maze', "Normal", ['menu'])
   hardButton = new Button({x: 440, y: 550}, {width: 150, height: 40}, 'draw-maze', "Hardcore", ['menu'])
@@ -97,8 +106,18 @@ function draw() {
   restartButton.render()
   mainMenuButton.render()
 
+  var elapsedTime = (millis() - startTime) / 1000
+  if(state !== 'draw-maze' && elapsedTime >= timer) {
+    if(state !== 'summary') {
+      totalTime += elapsedTime
+      badInput += depth
+    }
+    state = 'summary'
+  }
+
   if(atExitTile() && state !== 'draw-maze') {
     size = findNextDivisible(600, size)
+    totalTime += elapsedTime
     generateMaze()
     state = 'draw-maze'
   }
@@ -112,7 +131,9 @@ function draw() {
     maze.current.highlight(tombStone)
     if(maze.current.i === 0 && maze.current.j === 0) {
       search = new Search(maze)
-      timer = floor(search.findExit(exitX, exitY)/level)
+      depth = search.findExit(exitX, exitY)
+      timer = floor(depth/level)
+      optimalMoves += depth
       if(easy) timer = ceil(timer * 1.5)
       else if(hard) timer = ceil(timer * 0.5)
       state = 'game'
@@ -131,20 +152,26 @@ function draw() {
     setExitSprite()
     maze.grid[exitX + exitY * columns].highlight(exitSprite)
 
-    var elapsedTime = (millis() - startTime) / 1000
-    if(elapsedTime >= timer) {
-      state = 'summary'
-    } else if(state === 'summary') {
-      fill("white")
-      rect(50, 50, 500, 450)
-    }
-
     var para = select('.timer')
     var levelP = select('.level')
     para.show()
     levelP.show()
     para.html((floor(timer - elapsedTime) + 1) + ' seconds remaining')
     levelP.html("Level: " + level)
+  } else if(state === 'summary') {
+    fill("white")
+    rect(50, 50, 500, 450)
+    select('.timer').style('display', 'none')
+    select('.level').style('display', 'none')
+    fill('black')
+    text('Game Over', 300, 80)
+    text('Stats:', 120, 150)
+    textAlign(LEFT)
+    text('Levels beaten: ' + (level-1), 120, 200)
+    text('Time survived: ' + floor(totalTime) + ' seconds', 120, 250)
+    text('Distance travelled: ' + distance, 120, 300)
+    text('Invalid moves: ' + badInput, 120, 350)
+    text('Accuracy: ' + floor((optimalMoves / (badInput+distance)) * 100) + '%', 120, 400)
   }
 }
 
@@ -182,13 +209,21 @@ function mouseClicked() {
     }
   } else if(state === 'summary') {
     if(restartButton.isClicked(mouseX, mouseY)) {
+      distance = 0
       size = startSize
+      totalTime = 0
       level = 0
+      optimalMoves = 0
+      badInput = 0
       generateMaze()
       state = restartButton.state
     }
     if(mainMenuButton.isClicked(mouseX, mouseY)) {
+      distance = 0
+      optimalMoves = 0
       state = mainMenuButton.state
+      totalTime = 0
+      badInput = 0
       size = startSize
       level = 0
       generateMaze()
@@ -199,6 +234,7 @@ function mouseClicked() {
 function keyTyped() {
   if(state === 'game') {
     if(key === 'w' && !maze.current.walls[0]) {
+      distance++
       maze.current = maze.grid[maze.current.i + columns*(maze.current.j-1)]
       if(dir) {
         if(step) sprite = r1
@@ -208,12 +244,14 @@ function keyTyped() {
         else sprite = l2
       }
     } else if(key === 'd' && !maze.current.walls[1]) {
+      distance++
       maze.current = maze.grid[maze.current.i + columns*(maze.current.j) + 1]
       if(step) sprite = r1
       else sprite = r2
       dir = true
       maze.current.highlight(sprite)
     } else if(key === 's' && !maze.current.walls[2]) {
+      distance++
       maze.current = maze.grid[maze.current.i + columns*(maze.current.j+1)]
       if(dir) {
         if(step) sprite = r1
@@ -223,11 +261,14 @@ function keyTyped() {
         else sprite = l2
       }
     } else if(key === 'a' && !maze.current.walls[3]) {
+      distance++
       maze.current = maze.grid[maze.current.i + columns*(maze.current.j) - 1]
       if(step) sprite = l1
       else sprite = l2
       dir = false
       maze.current.highlight(sprite)
+    } else if(key === 'w' || key === 'a' || key === 's' || key === 'd') {
+      badInput++
     }
     step = !step
   }
