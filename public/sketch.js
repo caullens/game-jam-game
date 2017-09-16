@@ -5,7 +5,7 @@ var columns
 function setup() {
   //frameRate(5);
   state = 'menu'
-  size = 50
+  size = 150
   maze = new Maze(size)
   maze.setup()
   easyButton = new Button({x: 10, y: 550}, {width: 150, height: 40}, 'draw-maze', "Easy", ['menu'])
@@ -23,6 +23,14 @@ function draw() {
   easyButton.render()
   mediumButton.render()
   hardButton.render()
+
+  if(checkCurrent() && state != 'draw-maze') {
+    size = findNextDivisible(width, size)
+    maze.current = undefined
+    maze = new Maze(size)
+    maze.setup()
+    state = 'draw-maze'
+  }
 
   if(state === 'menu') {
   } else if (state === 'draw-maze') {
@@ -54,4 +62,15 @@ function keyTyped() {
       if(!maze.current.walls[3]) maze.current = maze.grid[maze.current.i + columns*(maze.current.j) - 1]
     }
   }
+}
+
+function checkCurrent() {
+  return maze.current === maze.grid[maze.grid.length - 1]
+}
+
+function findNextDivisible(divisor, current) {
+  while(divisor % --current != 0) {
+    //do nothing
+  }
+  return current
 }
