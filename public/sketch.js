@@ -85,6 +85,7 @@ function generateMaze() {
   maze.setup()
   columns = floor(width/size)
   startTime = millis()
+  depth = 0
 
   step = true
   dir = true
@@ -131,6 +132,8 @@ function draw() {
   if(state === 'menu') {
     fill("white")
     rect(50, 50, 500, 450)
+    fill("black")
+    text("Zombio and Ghouliet", 300, 100)
 
   } else if (state === 'draw-maze') {
     maze.draw();
@@ -170,7 +173,7 @@ function draw() {
     select('.timer').style('display', 'none')
     select('.level').style('display', 'none')
     fill('black')
-    text('Game Over', 300, 80)
+    text('Game Over', 300, 100)
     text('Stats:', 120, 150)
     textAlign(LEFT)
     text('Levels beaten: ' + (level-1), 120, 200)
