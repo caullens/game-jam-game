@@ -1,4 +1,4 @@
-A game created at the 24 hour Amateur Game Jam at Kansas State University Fall 2017
+A game created at the 24 hour Amateur Game Jam at Kansas State University Fall 2017  
 **Made by David Freeman and Caullen Sasnett**
 
 # Theme:
