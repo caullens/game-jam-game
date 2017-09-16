@@ -16,8 +16,12 @@ var badInput
 var optimalMoves
 var depth
 
-function setup() {
+function preload() {
   assets = new Assets()
+}
+
+function setup() {
+  assets.music.loop()
   state = 'menu'
   startSize = 150
   size = startSize

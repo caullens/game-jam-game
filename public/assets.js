@@ -1,4 +1,6 @@
 function Assets() {
+  this.music = loadSound('/assets/ghouliet.wav')
+
   this.zombio = {
     counter: 0,
     direction: 'right',
