@@ -57,7 +57,7 @@ function Cell(i, j, w, grid, cols, rows) {
     var y = this.j*this.w;
     noStroke();
     fill(0, 0, 255, 100);
-    rect(x, y, this.w, this.w);
+    ellipse(x + this.w / 2, y + this.w / 2, this.w / 1.5, this.w / 1.5);
 
   }
 
