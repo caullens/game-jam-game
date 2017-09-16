@@ -5,6 +5,7 @@ var step
 var sprite
 var dir
 var timer
+var easy, med, hard
 var startTime
 var startSize
 var exitX
@@ -53,7 +54,6 @@ function setup() {
   easyButton = new Button({x: 10, y: 550}, {width: 150, height: 40}, 'draw-maze', "Easy", ['menu'])
   mediumButton = new Button({x: 225, y: 550}, {width: 150, height: 40}, 'draw-maze', "Medium", ['menu'])
   hardButton = new Button({x: 440, y: 550}, {width: 150, height: 40}, 'draw-maze', "Hard", ['menu'])
-  timer = 10
   createP().addClass('timer').style('display', 'none').position(650, 60)
 }
 
@@ -97,6 +97,10 @@ function draw() {
     maze.draw();
     maze.current.highlight(tombStone)
     if(maze.current.i === 0 && maze.current.j === 0) {
+      search = new Search(maze)
+      timer = floor(search.findExit(exitX, exitY)/3)
+      if(easy) timer = ceil(timer * 1.5)
+      else if(hard) timer = ceil(timer * 0.5)
       state = 'game'
       startTime = millis()
     }
@@ -134,16 +138,23 @@ function mouseClicked() {
   if(state === 'menu') {
     if(easyButton.isClicked(mouseX, mouseY)) {
       state = easyButton.state
-      timer += 2
+      easy = true
+      med = false
+      hard = false
       startTime = millis()
     }
     if(mediumButton.isClicked(mouseX, mouseY)) {
       state = mediumButton.state
+      easy = false
+      med = true
+      hard = false
       startTime = millis()
     }
     if(hardButton.isClicked(mouseX, mouseY)) {
       state = hardButton.state
-      timer -= 2
+      easy = false
+      med = false
+      hard = true
       startTime = millis()
     }
   }
