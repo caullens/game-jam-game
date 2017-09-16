@@ -2,7 +2,6 @@ var state
 var size
 var columns
 var step
-var sprite
 var dir
 var timer
 var easy, med, hard
@@ -10,56 +9,19 @@ var startTime
 var startSize
 var exitX
 var exitY
-var exitSprite
-var tombStone
-var r1
-var r2
-var l1
-var l2
-var e
-var dirt
-var cellTextures
 var level
 var distance
 var totalTime
 var badInput
 var optimalMoves
 var depth
-var ground
 
 function setup() {
-  //frameRate(5);
+  assets = new Assets()
   state = 'menu'
   startSize = 150
   size = startSize
   newGame()
-
-  tombStone = loadImage('/assets/TS.png')
-  r1 = loadImage('/assets/R1.png')
-  r2 = loadImage('/assets/R2.png')
-  l1 = loadImage('/assets/L1.png')
-  l2 = loadImage('/assets/L2.png')
-  e = [
-    loadImage('/assets/E1.png'),
-    loadImage('/assets/E2.png'),
-    loadImage('/assets/E3.png'),
-    loadImage('/assets/E4.png')
-  ]
-  cellTextures = {
-    dirt : [
-    loadImage('/assets/dirt1.png'),
-    loadImage('/assets/dirt2.png'),
-    loadImage('/assets/dirt3.png'),
-    loadImage('/assets/dirt4.png')
-    ],
-    walls : [
-      loadImage('/assets/wallh.png'),
-      loadImage('/assets/wallv.png')
-    ]
-  }
-  ground = loadImage('/assets/groundT.png')
-  groundBottom = loadImage('/assets/groundB.png')
-
   generateMaze()
   distance = 0
   easyButton = new Button({x: 10, y: 550}, {width: 150, height: 40}, 'draw-maze', "Easy", ['menu'])
@@ -69,8 +31,6 @@ function setup() {
   mainMenuButton = new Button({x: 330, y: 550}, {width: 150, height: 40}, 'menu', "Menu", ['summary'])
   createP().addClass('timer').style('display', 'none').position(650, 70)
   createP().addClass('level').style('display', 'none').position(650, 30)
-
-  select('.inst').position(10, 650)
 }
 
 function newGame() {
@@ -84,7 +44,7 @@ function newGame() {
 
 function generateMaze() {
   level = level + 1
-  maze = new Maze(size, cellTextures, level)
+  maze = new Maze(size, assets.cellTextures, level)
   maze.setup()
   columns = floor(width/size)
   startTime = millis()
@@ -92,14 +52,14 @@ function generateMaze() {
 
   step = true
   dir = true
-  sprite = r1
+  assets.resetZombioCounter()
   exitX = Math.floor((Math.random() * columns))
   exitY = Math.floor((Math.random() * columns))
   while(dist(maze.current.i * maze.current.w, maze.current.j * maze.current.w, exitX * maze.current.w, exitY * maze.current.w) < 200) {
     exitX = Math.floor((Math.random() * columns))
     exitY = Math.floor((Math.random() * columns))
   }
-  exitSprite = e[0]
+  assets.resetGhoulietCounter()
 }
 
 function draw() {
@@ -136,7 +96,7 @@ function draw() {
     renderMainMenu()
   } else if (state === 'draw-maze') {
     maze.draw();
-    maze.current.highlight(tombStone)
+    maze.current.highlight(assets.tombStone)
     if(maze.current.i === 0 && maze.current.j === 0) {
       search = new Search(maze)
       depth = search.findExit(exitX, exitY)
@@ -156,9 +116,9 @@ function draw() {
     levelP.html("Level: " + level)
   } else if (state === 'game') {
     maze.draw()
-    maze.current.highlight(sprite)
-    setExitSprite()
-    maze.grid[exitX + exitY * columns].highlight(exitSprite)
+    maze.current.highlight(assets.getZombio())
+    assets.setGhoulietState(elapsedTime, timer)
+    maze.grid[exitX + exitY * columns].highlight(assets.getGhouliet())
 
     var para = select('.timer')
     var levelP = select('.level')
@@ -174,20 +134,23 @@ function draw() {
 function renderMainMenu() {
   fill(39, 13, 81)
   rect(50, 50, 500, 450)
-  fill("black")
+  fill(184, 159, 224)
+  textFont("Freckle Face", 50)
   text("Zombio and Ghouliet", 300, 100)
-  image(e[2], 40, 130, 150, 150)
-  image(l1, 450, 130, 100, 150)
-  image(ground, 50, 262, 100, 100)
-  image(ground, 150, 262, 100, 100)
-  image(ground, 250, 262, 100, 100)
-  image(ground, 350, 262, 100, 100)
-  image(ground, 450, 262, 100, 100)
-  image(groundBottom, 50, 362, 100, 100)
-  image(groundBottom, 150, 362, 100, 100)
-  image(groundBottom, 250, 362, 100, 100)
-  image(groundBottom, 350, 362, 100, 100)
-  image(groundBottom, 450, 362, 100, 100)
+  image(assets.ghouliet.state[1], 40, 130, 150, 150)
+  image(assets.zombio.left[0], 450, 130, 100, 150)
+  for(var i = 50; i < 500; i+=100) {
+    image(assets.ground.top, i, 262, 100, 100)
+    image(assets.ground.bottom, i, 362, 100, 100)
+  }
+
+  textFont("Freckle Face", 20)
+  text("Help Zombio get to Ghouliet before she...", 300, 340)
+  textFont("Freckle Face", 40)
+  text("RUNS OUT OF TIME!", 300, 400)
+
+  textFont("Freckle Face", 25)
+  text("Use WASD to move Zombio", 300, 480)
 }
 
 function renderSummaryPage() {
@@ -196,8 +159,10 @@ function renderSummaryPage() {
   rect(50, 50, 500, 450)
   select('.timer').style('display', 'none')
   select('.level').style('display', 'none')
-  fill('black')
+  fill(184, 159, 224)
+  textFont("Freckle Face", 50)
   text('Game Over', 300, 100)
+  textFont("Freckle Face", 30)
   text('Stats:', 120, 150)
   textAlign(LEFT)
   text('Levels beaten: ' + (level-1), 120, 200)
@@ -205,15 +170,6 @@ function renderSummaryPage() {
   text('Distance travelled: ' + distance, 120, 300)
   text('Invalid moves: ' + badInput, 120, 350)
   text('Accuracy: ' + floor(optimalMoves / (optimalMoves + badInput) * 100) + '%', 120, 400)
-}
-
-function setExitSprite() {
-  var elapsedTime = (millis() - startTime) / 1000
-  var qTime = ceil(timer/4)
-  if((floor(timer - elapsedTime) + 1) > timer-qTime) exitSprite = e[0]
-  else if((floor(timer - elapsedTime) + 1) > timer-2*qTime) exitSprite = e[1]
-  else if((floor(timer - elapsedTime) + 1) > timer-3*qTime) exitSprite = e[2]
-  else exitSprite = e[3]
 }
 
 function mouseClicked() {
@@ -257,44 +213,25 @@ function mouseClicked() {
 
 function keyTyped() {
   if(state === 'game') {
+    assets.stepZombio(key)
+
     if(key === 'w' && !maze.current.walls[0]) {
       distance++
       maze.current = maze.grid[maze.current.i + columns*(maze.current.j-1)]
-      if(dir) {
-        if(step) sprite = r1
-        else sprite = r2
-      } else {
-        if(step) sprite = l1
-        else sprite = l2
-      }
     } else if(key === 'd' && !maze.current.walls[1]) {
       distance++
       maze.current = maze.grid[maze.current.i + columns*(maze.current.j) + 1]
-      if(step) sprite = r1
-      else sprite = r2
-      dir = true
-      maze.current.highlight(sprite)
+      maze.current.highlight(assets.getZombio())
     } else if(key === 's' && !maze.current.walls[2]) {
       distance++
       maze.current = maze.grid[maze.current.i + columns*(maze.current.j+1)]
-      if(dir) {
-        if(step) sprite = r1
-        else sprite = r2
-      } else {
-        if(step) sprite = l1
-        else sprite = l2
-      }
     } else if(key === 'a' && !maze.current.walls[3]) {
       distance++
       maze.current = maze.grid[maze.current.i + columns*(maze.current.j) - 1]
-      if(step) sprite = l1
-      else sprite = l2
-      dir = false
-      maze.current.highlight(sprite)
+      maze.current.highlight(assets.getZombio())
     } else if(key === 'w' || key === 'a' || key === 's' || key === 'd') {
       badInput++
     }
-    step = !step
   }
 }
 
