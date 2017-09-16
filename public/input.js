@@ -91,7 +91,7 @@ function Input() {
   this.touchMoved = function() {
     if(!this.newTouch) return
     this.newTouch = false
-    var diffX = this.ouchStartX - mouseX
+    var diffX = this.touchStartX - mouseX
     var diffY = this.touchStartY - mouseY
     if(Math.abs(diffX) > Math.abs(diffY)) {
       if(diffX > 0 && !game.maze.current.walls[3]) {
