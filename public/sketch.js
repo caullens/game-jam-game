@@ -133,6 +133,7 @@ function draw() {
     fill("white")
     rect(50, 50, 500, 450)
     fill("black")
+    textFont('Freckle Face')
     text("Zombio and Ghouliet", 300, 100)
 
   } else if (state === 'draw-maze') {
