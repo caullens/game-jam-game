@@ -90,11 +90,8 @@ function Game() {
     var para = select('.timer')
     var levelP = select('.level')
     var diff = select('.diff')
-    para.show()
-    levelP.show()
     para.html("Generating maze...")
     levelP.html("Level: " + this.level)
-    diff.show()
     if(this.easy) diff.html('Difficulty: Easy')
     else if(this.med) diff.html('Difficulty: Normal')
     else diff.html('Difficulty: Hardcore')
@@ -110,10 +107,17 @@ function Game() {
     var elapsedTime = (millis()-this.startTime)/1000
     var para = select('.timer')
     var levelP = select('.level')
-    para.show()
-    levelP.show()
+    var diff = select('.diff')
     para.html((floor(this.timer - elapsedTime) + 1) + ' seconds remaining')
     levelP.html("Level: " + this.level)
+
+    stroke('black')
+    fill('white')
+    textFont('Freckle Face', 30)
+    text(para.html(), 300, 25)
+    textFont('Freckle Face', 15)
+    text(levelP.html(), 50, 580)
+    text(diff.html(), 500, 580)
   }
 
   this.moveRight = function() {
