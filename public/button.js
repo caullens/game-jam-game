@@ -36,10 +36,11 @@ function Button(position, dimensions, state, text, shownStates, imgsrc) {
 }
 
 function defaultButton(self) {
-  fill('white');
+  noStroke()
+  fill('orange');
   textFont('Freckle Face', 30)
-  rect(self.pos.x, self.pos.y, self.size.width, self.size.height);
+  rect(self.pos.x, self.pos.y, self.size.width, self.size.height, 10);
   textAlign(CENTER, CENTER);
-  fill('black');
+  fill(39, 13, 81);
   text(self.text, self.pos.x + self.size.width / 2, self.pos.y + 20);
 }
