@@ -69,6 +69,10 @@ function generateMaze() {
   sprite = r1
   exitX = Math.floor((Math.random() * columns))
   exitY = Math.floor((Math.random() * columns))
+  while(dist(maze.current.i * maze.current.w, maze.current.j * maze.current.w, exitX * maze.current.w, exitY * maze.current.w) < 200) {
+    exitX = Math.floor((Math.random() * columns))
+    exitY = Math.floor((Math.random() * columns))
+  }
   exitSprite = e[0]
 }
 

@@ -11,10 +11,7 @@ h1 {
   font-family: 'Roboto', sans-serif;
 }
 
-p {
-  padding-left: 30px;
-}
-
 .timer {
   font-size: 30px;
+  margin-left: 30px;
 }
