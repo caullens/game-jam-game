@@ -31,8 +31,6 @@ function Button(position, dimensions, state, text, shownStates, imgsrc) {
   this.isClicked = function(x, y) {
     return ((x > this.pos.x && x < this.pos.x + this.size.width) && (y > this.pos.y && y < this.pos.y + this.size.height))
   }
-
-  createCanvas(600, 600)
 }
 
 function defaultButton(self) {

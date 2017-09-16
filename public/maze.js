@@ -18,9 +18,9 @@ function Maze(size) {
 
   var cols, rows;
   var w = size;
-  var grid = [];
+  this.grid = [];
 
-  var current;
+  this.current;
 
   var stack = [];
 
@@ -31,36 +31,36 @@ function Maze(size) {
 
     for (var   j = 0; j < rows; j++) {
       for (var i = 0; i < cols; i++) {
-        var cell = new Cell(i, j, w, grid, cols, rows);
-        grid.push(cell);
+        var cell = new Cell(i, j, w, this.grid, cols, rows);
+        this.grid.push(cell);
       }
     }
-    current = grid[0];
+    this.current = this.grid[0];
   }
 
   this.draw = function() {
     background(51);
-    for (var i = 0; i < grid.length; i++) {
-      grid[i].show();
+    for (var i = 0; i < this.grid.length; i++) {
+      this.grid[i].show();
     }
 
-    current.visited = true;
-    current.highlight();
+    this.current.visited = true;
+    this.current.highlight();
     // STEP 1
-    var next = current.checkNeighbors();
+    var next = this.current.checkNeighbors();
     if (next) {
       next.visited = true;
 
       // STEP 2
-      stack.push(current);
+      stack.push(this.current);
 
       // STEP 3
-      this.removeWalls(current, next);
+      this.removeWalls(this.current, next);
 
       // STEP 4
-      current = next;
+      this.current = next;
     } else if (stack.length > 0) {
-      current = stack.pop();
+      this.current = stack.pop();
     }
 
   }
