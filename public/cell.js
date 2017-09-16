@@ -52,13 +52,10 @@ function Cell(i, j, w, grid, cols, rows) {
 
 
   }
-  this.highlight = function() {
+  this.highlight = function(character) {
     var x = this.i*this.w;
     var y = this.j*this.w;
-    noStroke();
-    fill(0, 0, 255, 100);
-    ellipse(x + this.w / 2, y + this.w / 2, this.w / 1.5, this.w / 1.5);
-
+    image(character, x, y, this.w, this.w)
   }
 
   this.show = function() {

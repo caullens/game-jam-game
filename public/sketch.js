@@ -1,6 +1,9 @@
 var state
 var size
 var columns
+var step
+var sprite
+var dir
 
 function setup() {
   //frameRate(5);
@@ -12,6 +15,9 @@ function setup() {
   mediumButton = new Button({x: 225, y: 550}, {width: 150, height: 40}, 'draw-maze', "Medium", ['menu'])
   hardButton = new Button({x: 440, y: 550}, {width: 150, height: 40}, 'draw-maze', "Hard", ['menu'])
   columns = floor(width/size)
+  step = true
+  dir = true
+  sprite = loadImage('/assets/R1.png')
 }
 
 function draw() {
@@ -32,7 +38,7 @@ function draw() {
     }
   } else if (state === 'game') {
     maze.draw()
-
+    maze.current.highlight(sprite)
   }
 }
 
@@ -44,14 +50,37 @@ function mouseClicked() {
 
 function keyTyped() {
   if(state === 'game') {
-    if(key === 'w') {
-      if(!maze.current.walls[0]) maze.current = maze.grid[maze.current.i + columns*(maze.current.j-1)]
-    } else if(key === 'd') {
-      if(!maze.current.walls[1]) maze.current = maze.grid[maze.current.i + columns*(maze.current.j) + 1]
-    } else if(key === 's') {
-      if(!maze.current.walls[2]) maze.current = maze.grid[maze.current.i + columns*(maze.current.j+1)]
-    } else if(key === 'a') {
-      if(!maze.current.walls[3]) maze.current = maze.grid[maze.current.i + columns*(maze.current.j) - 1]
+    if(key === 'w' && !maze.current.walls[0]) {
+      maze.current = maze.grid[maze.current.i + columns*(maze.current.j-1)]
+      if(dir) {
+        if(step) sprite = loadImage('/assets/R1.png')
+        else sprite = loadImage('assets/R2.png')
+      } else {
+        if(step) sprite = loadImage('/assets/L1.png')
+        else sprite = loadImage('assets/L2.png')
+      }
+    } else if(key === 'd' && !maze.current.walls[1]) {
+      maze.current = maze.grid[maze.current.i + columns*(maze.current.j) + 1]
+      if(step) sprite = loadImage('/assets/R1.png')
+      else sprite = loadImage('assets/R2.png')
+      dir = true
+      maze.current.highlight(sprite)
+    } else if(key === 's' && !maze.current.walls[2]) {
+      maze.current = maze.grid[maze.current.i + columns*(maze.current.j+1)]
+      if(dir) {
+        if(step) sprite = loadImage('/assets/R1.png')
+        else sprite = loadImage('assets/R2.png')
+      } else {
+        if(step) sprite = loadImage('/assets/L1.png')
+        else sprite = loadImage('assets/L2.png')
+      }
+    } else if(key === 'a' && !maze.current.walls[3]) {
+      maze.current = maze.grid[maze.current.i + columns*(maze.current.j) - 1]
+      if(step) sprite = loadImage('/assets/L1.png')
+      else sprite = loadImage('assets/L2.png')
+      dir = false
+      maze.current.highlight(sprite)
     }
+    step = !step
   }
 }
