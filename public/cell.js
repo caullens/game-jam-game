@@ -22,6 +22,15 @@ function Cell(i, j, w, grid, cols, rows) {
   this.walls = [true, true, true, true];
   this.visited = false;
 
+
+  var dirt = [
+    loadImage('/assets/dirt1.png'),
+    loadImage('/assets/dirt2.png'),
+    loadImage('/assets/dirt3.png'),
+    loadImage('/assets/dirt4.png')
+  ]
+  var dirtTexture = Math.floor(Math.random() * 4)
+
   this.checkNeighbors = function() {
     var neighbors = [];
 
@@ -61,6 +70,11 @@ function Cell(i, j, w, grid, cols, rows) {
   this.show = function() {
     var x = this.i*this.w;
     var y = this.j*this.w;
+
+    if (this.visited) {
+      image(dirt[dirtTexture], x, y, this.w, this.w)
+    }
+
     stroke(255);
     if (this.walls[0]) {
       line(x    , y    , x + this.w, y);
@@ -73,12 +87,6 @@ function Cell(i, j, w, grid, cols, rows) {
     }
     if (this.walls[3]) {
       line(x    , y + this.w, x    , y);
-    }
-
-    if (this.visited) {
-      noStroke();
-      fill(255, 0, 255, 100);
-      rect(x, y, this.w, this.w);
     }
   }
 
