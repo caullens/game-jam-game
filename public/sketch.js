@@ -16,6 +16,7 @@ var badInput
 var optimalMoves
 var depth
 var touchStartX, touchStartY
+var newTouch
 
 function preload() {
   assets = new Assets()
@@ -201,9 +202,12 @@ function touchEnded() {
 function touchStarted() {
   touchStartX = mouseX
   touchStartY = mouseY
+  newTouch = true
 }
 
 function touchMoved() {
+  if(!newTouch) return
+  newTouch = false
   var diffX = touchStartX - mouseX
   var diffY = touchStartY - mouseY
   if(Math.abs(diffX) > Math.abs(diffY)) {
