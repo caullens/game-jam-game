@@ -1,5 +1,6 @@
 function Assets() {
   this.music = loadSound('/assets/ghouliet.wav')
+  this.muteSounds = false
 
   this.moans = [
     loadSound('/assets/moan1.wav'),
@@ -113,6 +114,7 @@ function Assets() {
   }
 
   this.playRandomMoan = function() {
+    if(this.muteSounds) return
     var moan = this.moans[Math.floor(Math.random() * 2)]
     moan.setVolume(0.2)
     moan.play()
@@ -120,5 +122,15 @@ function Assets() {
 
   this.endStepZombeo = function() {
     if(this.zombeo.counter < 11) this.zombeo.counter += 1
+  }
+
+  this.mute = function() {
+    if(this.music.isPlaying()) {
+      this.music.pause()
+      this.muteSounds = true
+    } else {
+      this.music.play()
+      this.muteSounds = false
+    }
   }
 }

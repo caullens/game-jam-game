@@ -61,8 +61,7 @@ function Input() {
 
   this.keyTyped = function() {
     if(key === 'm') {
-      if(assets.music.isPlaying()) assets.music.pause()
-      else assets.music.play()
+      assets.mute()
     }
 
     if(game.state === 'game') {
