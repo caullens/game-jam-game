@@ -78,7 +78,7 @@ function Menus() {
     text("RUNS OUT OF TIME!", 300, 400)
 
     textFont("Freckle Face", 25)
-    text("Use WASD to move Zombeo", 300, 480)
+    text("Use WASD or Swipe to move Zombeo", 300, 480)
   }
 
   this.renderSummaryMenu = function() {
