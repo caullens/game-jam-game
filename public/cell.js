@@ -13,6 +13,7 @@
 // https://en.wikipedia.org/wiki/Maze_generation_algorithm
 
 function Cell(i, j, w, grid, cols, rows) {
+
   this.i = i;
   this.j = j;
   this.w = w;
