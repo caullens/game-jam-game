@@ -58,7 +58,10 @@ function setup() {
   hardButton = new Button({x: 440, y: 550}, {width: 150, height: 40}, 'draw-maze', "Hardcore", ['menu'])
   restartButton = new Button({x: 130, y: 550}, {width: 150, height: 40}, 'draw-maze', "Try Again", ['summary'])
   mainMenuButton = new Button({x: 330, y: 550}, {width: 150, height: 40}, 'menu', "Menu", ['summary'])
-  createP().addClass('timer').style('display', 'none').position(650, 60)
+  createP().addClass('timer').style('display', 'none').position(650, 70)
+  createP().addClass('level').style('display', 'none').position(650, 30)
+
+  select('.inst').position(10, 700)
 }
 
 function generateMaze() {
@@ -103,7 +106,7 @@ function draw() {
   if(state === 'menu') {
     fill("white")
     rect(50, 50, 500, 450)
-    
+
   } else if (state === 'draw-maze') {
     maze.draw();
     maze.current.highlight(tombStone)
@@ -117,8 +120,11 @@ function draw() {
     }
 
     var para = select('.timer')
+    var levelP = select('.level')
     para.show()
+    levelP.show()
     para.html("Generating maze...")
+    levelP.html("Level: " + level)
   } else if (state === 'game') {
     maze.draw()
     maze.current.highlight(sprite)
@@ -128,14 +134,17 @@ function draw() {
     var elapsedTime = (millis() - startTime) / 1000
     if(elapsedTime >= timer) {
       state = 'summary'
+    } else if(state === 'summary') {
+      fill("white")
+      rect(50, 50, 500, 450)
     }
 
     var para = select('.timer')
+    var levelP = select('.level')
     para.show()
-    para.html("Time remaining: " + (floor(timer - elapsedTime) + 1))
-  } else if(state === 'summary') {
-    fill("white")
-    rect(50, 50, 500, 450)
+    levelP.show()
+    para.html((floor(timer - elapsedTime) + 1) + ' seconds remaining')
+    levelP.html("Level: " + level)
   }
 }
 
