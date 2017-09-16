@@ -35,6 +35,7 @@ function draw() {
     maze.current = undefined
     maze = new Maze(size)
     maze.setup()
+    columns = floor(width/size)
     state = 'draw-maze'
   }
 
@@ -98,7 +99,7 @@ function checkCurrent() {
 }
 
 function findNextDivisible(divisor, current) {
-  while(divisor % --current != 0) {
+  while(current > 0 && divisor % --current != 0) {
     //do nothing
   }
   return current
