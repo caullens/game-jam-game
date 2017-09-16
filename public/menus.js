@@ -93,10 +93,31 @@ function Menus() {
     textFont("Freckle Face", 30)
     text('Stats:', 120, 150)
     textAlign(LEFT)
-    text('Levels beaten: ' + (level-1), 120, 200)
-    text('Time survived: ' + floor(totalTime) + ' seconds', 120, 250)
-    text('Distance travelled: ' + distance, 120, 300)
-    text('Invalid moves: ' + badInput, 120, 350)
-    text('Accuracy: ' + floor(optimalMoves / (optimalMoves + badInput) * 100) + '%', 120, 400)
+    text('Levels beaten: ' + (game.level-1), 120, 200)
+    text('Time survived: ' + floor(game.totalTime) + ' seconds', 120, 250)
+    text('Distance travelled: ' + game.distance, 120, 300)
+    text('Invalid moves: ' + game.badInput, 120, 350)
+    text('Accuracy: ' + floor(game.optimalMoves / (game.optimalMoves + game.badInput) * 100) + '%', 120, 400)
+  }
+
+  this.easyButtonPressed = function() {
+    game.state = this.buttons.easy.state
+    game.easy = true
+    game.med = false
+    game.hard = false
+  }
+
+  this.normalButtonPressed = function() {
+    game.state = this.buttons.normal.state
+    game.easy = false
+    game.med = true
+    game.hard = false
+  }
+
+  this.hardButtonPressed = function() {
+    game.state = this.buttons.hard.state
+    game.easy = false
+    game.med = false
+    game.hard = true
   }
 }
