@@ -111,6 +111,7 @@ function Game() {
     para.html((floor(this.timer - elapsedTime) + 1) + ' seconds remaining')
     levelP.html("Level: " + this.level)
 
+    textAlign(CENTER, CENTER)
     stroke('black')
     fill('white')
     textFont('Freckle Face', 30)
