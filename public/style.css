@@ -1,5 +1,6 @@
 canvas {
   margin-left: 30px;
+  margin-bottom: 5px;
 }
 
 h1 {
@@ -22,5 +23,7 @@ h1 {
 }
 
 .inst {
+  margin-top: 0px;
   margin-left: 30px;
+  font-size: 30px;
 }

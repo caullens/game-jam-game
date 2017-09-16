@@ -25,6 +25,7 @@ var totalTime
 var badInput
 var optimalMoves
 var depth
+var ground
 
 function setup() {
   //frameRate(5);
@@ -56,6 +57,8 @@ function setup() {
       loadImage('/assets/wallv.png')
     ]
   }
+  ground = loadImage('/assets/groundT.png')
+  groundBottom = loadImage('/assets/groundB.png')
 
   generateMaze()
   distance = 0
@@ -67,7 +70,7 @@ function setup() {
   createP().addClass('timer').style('display', 'none').position(650, 70)
   createP().addClass('level').style('display', 'none').position(650, 30)
 
-  select('.inst').position(10, 700)
+  select('.inst').position(10, 650)
 }
 
 function newGame() {
@@ -100,7 +103,7 @@ function generateMaze() {
 }
 
 function draw() {
-  background(51)
+  background(76, 32, 147)
   easyButton.update(state)
   mediumButton.update(state)
   hardButton.update(state)
@@ -130,11 +133,7 @@ function draw() {
   }
 
   if(state === 'menu') {
-    fill("white")
-    rect(50, 50, 500, 450)
-    fill("black")
-    text("Zombio and Ghouliet", 300, 100)
-
+    renderMainMenu()
   } else if (state === 'draw-maze') {
     maze.draw();
     maze.current.highlight(tombStone)
@@ -168,20 +167,44 @@ function draw() {
     para.html((floor(timer - elapsedTime) + 1) + ' seconds remaining')
     levelP.html("Level: " + level)
   } else if(state === 'summary') {
-    fill("white")
-    rect(50, 50, 500, 450)
-    select('.timer').style('display', 'none')
-    select('.level').style('display', 'none')
-    fill('black')
-    text('Game Over', 300, 100)
-    text('Stats:', 120, 150)
-    textAlign(LEFT)
-    text('Levels beaten: ' + (level-1), 120, 200)
-    text('Time survived: ' + floor(totalTime) + ' seconds', 120, 250)
-    text('Distance travelled: ' + distance, 120, 300)
-    text('Invalid moves: ' + badInput, 120, 350)
-    text('Accuracy: ' + floor(optimalMoves / (optimalMoves + badInput) * 100) + '%', 120, 400)
+    renderSummaryPage()
   }
+}
+
+function renderMainMenu() {
+  fill(39, 13, 81)
+  rect(50, 50, 500, 450)
+  fill("black")
+  text("Zombio and Ghouliet", 300, 100)
+  image(e[2], 40, 130, 150, 150)
+  image(l1, 450, 130, 100, 150)
+  image(ground, 50, 262, 100, 100)
+  image(ground, 150, 262, 100, 100)
+  image(ground, 250, 262, 100, 100)
+  image(ground, 350, 262, 100, 100)
+  image(ground, 450, 262, 100, 100)
+  image(groundBottom, 50, 362, 100, 100)
+  image(groundBottom, 150, 362, 100, 100)
+  image(groundBottom, 250, 362, 100, 100)
+  image(groundBottom, 350, 362, 100, 100)
+  image(groundBottom, 450, 362, 100, 100)
+}
+
+function renderSummaryPage() {
+  fill(39, 13, 81)
+  noStroke()
+  rect(50, 50, 500, 450)
+  select('.timer').style('display', 'none')
+  select('.level').style('display', 'none')
+  fill('black')
+  text('Game Over', 300, 100)
+  text('Stats:', 120, 150)
+  textAlign(LEFT)
+  text('Levels beaten: ' + (level-1), 120, 200)
+  text('Time survived: ' + floor(totalTime) + ' seconds', 120, 250)
+  text('Distance travelled: ' + distance, 120, 300)
+  text('Invalid moves: ' + badInput, 120, 350)
+  text('Accuracy: ' + floor(optimalMoves / (optimalMoves + badInput) * 100) + '%', 120, 400)
 }
 
 function setExitSprite() {
