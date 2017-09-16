@@ -98,6 +98,9 @@ function Menus() {
     text('Distance travelled: ' + game.distance, 120, 300)
     text('Invalid moves: ' + game.badInput, 120, 350)
     text('Accuracy: ' + floor(game.optimalMoves / (game.optimalMoves + game.badInput) * 100) + '%', 120, 400)
+
+    image(assets.zombeo.endAnimation[assets.zombeo.counter], 400, 60, 150, 150)
+    if(frameCount%3 === 0) assets.endStepZombeo()
   }
 
   this.easyButtonPressed = function() {

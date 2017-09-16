@@ -100,6 +100,7 @@ function Game() {
     this.maze.current.highlight(assets.getZombeo())
     this.maze.grid[this.exitX + this.exitY * this.columns].highlight(assets.getGhouliet())
     if(frameCount%4 === 0) assets.titleStepGhouliet()
+    if(frameCount%60 === 0 && Math.random() > 0.7) assets.playRandomMoan()
 
     var elapsedTime = (millis()-this.startTime)/1000
     var para = select('.timer')

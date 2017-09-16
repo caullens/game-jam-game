@@ -1,6 +1,11 @@
 function Assets() {
   this.music = loadSound('/assets/ghouliet.wav')
 
+  this.moans = [
+    loadSound('/assets/moan1.wav'),
+    loadSound('/assets/moan2.wav')
+  ]
+
   this.zombeo = {
     counter: 0,
     direction: 'right',
@@ -17,6 +22,20 @@ function Assets() {
       loadImage('/assets/W8.png'),
       loadImage('/assets/W9.png'),
       loadImage('/assets/W10.png'),
+    ],
+    endAnimation: [
+      loadImage('/assets/E1.png'),
+      loadImage('/assets/E2.png'),
+      loadImage('/assets/E3.png'),
+      loadImage('/assets/E4.png'),
+      loadImage('/assets/E5.png'),
+      loadImage('/assets/E6.png'),
+      loadImage('/assets/E7.png'),
+      loadImage('/assets/E8.png'),
+      loadImage('/assets/E9.png'),
+      loadImage('/assets/E10.png'),
+      loadImage('/assets/E11.png'),
+      loadImage('/assets/E12.png')
     ]
   }
 
@@ -91,5 +110,15 @@ function Assets() {
 
   this.getGhouliet = function() {
     return this.ghouliet.titleAnimation[this.ghouliet.counter]
+  }
+
+  this.playRandomMoan = function() {
+    var moan = this.moans[Math.floor(Math.random() * 2)]
+    moan.setVolume(0.2)
+    moan.play()
+  }
+
+  this.endStepZombeo = function() {
+    if(this.zombeo.counter < 11) this.zombeo.counter += 1
   }
 }

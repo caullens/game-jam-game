@@ -26,6 +26,7 @@ function draw() {
   game.checkForLevelCompleted()
 
   if(game.state === 'menu') {
+    frameRate(45)
     menus.renderMainMenu()
   } else if (game.state === 'draw-maze') {
     frameRate(60)
@@ -33,6 +34,7 @@ function draw() {
   } else if (game.state === 'game') {
     game.play()
   } else if(game.state === 'summary') {
+    frameRate(45)
     menus.renderSummaryMenu()
   }
 }
