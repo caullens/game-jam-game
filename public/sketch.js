@@ -17,12 +17,15 @@ var l1
 var l2
 var e = []
 var dirt
+var cellTextures
+var level
 
 function setup() {
   //frameRate(5);
   state = 'menu'
   startSize = 150
   size = startSize
+  level = 0
 
   tombStone = loadImage('/assets/TS.png')
   r1 = loadImage('/assets/R1.png')
@@ -33,12 +36,18 @@ function setup() {
   e.push(loadImage('/assets/E2.png'))
   e.push(loadImage('/assets/E3.png'))
   e.push(loadImage('/assets/E4.png'))
-  dirt = [
+  cellTextures = {
+    dirt : [
     loadImage('/assets/dirt1.png'),
     loadImage('/assets/dirt2.png'),
     loadImage('/assets/dirt3.png'),
     loadImage('/assets/dirt4.png')
-  ]
+    ],
+    walls : [
+      loadImage('/assets/wallh.png'),
+      loadImage('/assets/wallv.png')
+    ]
+  }
 
   generateMaze()
   easyButton = new Button({x: 10, y: 550}, {width: 150, height: 40}, 'draw-maze', "Easy", ['menu'])
@@ -49,7 +58,8 @@ function setup() {
 }
 
 function generateMaze() {
-  maze = new Maze(size, dirt)
+  level = level + 1
+  maze = new Maze(size, cellTextures, level)
   maze.setup()
   columns = floor(width/size)
   startTime = millis()
@@ -73,7 +83,7 @@ function draw() {
   hardButton.render()
 
   if(atExitTile() && state != 'draw-maze') {
-    size = findNextDivisible(width, size)
+    size = findNextDivisible(600, size)
     generateMaze()
     state = 'draw-maze'
   }
@@ -97,6 +107,7 @@ function draw() {
     var elapsedTime = (millis() - startTime) / 1000
     if(elapsedTime >= timer) {
       size = startSize
+      level = 0
       generateMaze()
       state = 'draw-maze'
     }

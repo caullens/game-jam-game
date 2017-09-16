@@ -14,7 +14,7 @@
 // Recursive backtracker
 // https://en.wikipedia.org/wiki/Maze_generation_algorithm
 
-function Maze(size, dirt) {
+function Maze(size, cellTextures, level) {
 
   var cols, rows;
   var w = size;
@@ -25,13 +25,13 @@ function Maze(size, dirt) {
   var stack = [];
 
   this.setup = function() {
-    createCanvas(600,600)
+    createCanvas(605,605)
     cols = floor(width/w);
     rows = floor(height/w);
 
     for (var   j = 0; j < rows; j++) {
       for (var i = 0; i < cols; i++) {
-        var cell = new Cell(i, j, w, this.grid, cols, rows, dirt);
+        var cell = new Cell(i, j, w, this.grid, cols, rows, cellTextures, level);
         this.grid.push(cell);
       }
     }

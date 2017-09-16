@@ -12,7 +12,7 @@
 // Recursive backtracker
 // https://en.wikipedia.org/wiki/Maze_generation_algorithm
 
-function Cell(i, j, w, grid, cols, rows) {
+function Cell(i, j, w, grid, cols, rows, textures, level) {
 
   this.i = i;
   this.j = j;
@@ -24,6 +24,11 @@ function Cell(i, j, w, grid, cols, rows) {
   this.visited = false;
 
   var dirtTexture = rouletSelect()
+  var wallWidth
+  if(level > 5) wallWidth = 2
+  else wallWidth = 5
+  var wallh = textures.walls[0]
+  var wallv = textures.walls[1]
 
   function rouletSelect() {
     var weights = [0.7, 0.1, 0.1, 0.1]
@@ -75,21 +80,21 @@ function Cell(i, j, w, grid, cols, rows) {
     var y = this.j*this.w;
 
     if (this.visited) {
-      image(dirt[dirtTexture], x, y, this.w, this.w)
+      image(textures.dirt[dirtTexture], x, y, this.w, this.w)
     }
 
     stroke(255);
     if (this.walls[0]) {
-      line(x    , y    , x + this.w, y);
+      image(wallh, x, y, this.w, wallWidth)
     }
     if (this.walls[1]) {
-      line(x + this.w, y    , x + this.w, y + this.w);
+      image(wallv, x+this.w, y, wallWidth, this.w)
     }
     if (this.walls[2]) {
-      line(x + this.w, y + this.w, x    , y + this.w);
+      image(wallh, x, y+this.w, this.w, wallWidth)
     }
     if (this.walls[3]) {
-      line(x    , y + this.w, x    , y);
+      image(wallv, x, y, wallWidth, this.w)
     }
   }
 
