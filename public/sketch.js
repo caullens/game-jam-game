@@ -23,9 +23,6 @@ function draw() {
   menus.updateButtons(game.state)
   menus.renderButtons()
 
-  game.checkForGameOver()
-  game.checkForLevelCompleted()
-
   if(game.state === 'menu') {
     frameRate(45)
     menus.renderMainMenu()
@@ -33,6 +30,8 @@ function draw() {
     frameRate(60)
     game.drawMaze()
   } else if (game.state === 'game') {
+    //game.checkForGameOver()
+    game.checkForLevelCompleted()
     game.play()
   } else if(game.state === 'summary') {
     frameRate(45)
@@ -40,22 +39,14 @@ function draw() {
   }
 }
 
+function keyPressed() {
+  input.keyPressed(key)
+}
+
+function keyReleased() {
+  input.keyReleased()
+}
+
 function mouseClicked() {
   input.mouseClicked(mouseX, mouseY)
-}
-
-function touchEnded() {
-  input.touchEnded()
-}
-
-function keyTyped() {
-  input.keyTyped()
-}
-
-function touchStarted() {
-  input.touchStarted(mouseX, mouseY)
-}
-
-function touchMoved() {
-  input.touchMoved()
 }

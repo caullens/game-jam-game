@@ -59,6 +59,21 @@ function Input() {
     }
   }
 
+  this.keyPressed = function(key) {
+    if(key === 'W' || key === ' ') {
+      game.jump()
+    } else if(key === 'D') {
+      game.setMoveDirection('right')
+    } else if(key === 'A') {
+      game.setMoveDirection('left')
+    }
+  }
+
+  this.keyReleased = function() {
+    if(key === 'D') game.stopMoving('right')
+    if(key === 'A') game.stopMoving('left')
+  }
+
   this.keyTyped = function() {
     if(key === 'm') {
       assets.mute()
@@ -67,7 +82,7 @@ function Input() {
     if(game.state === 'game') {
       assets.stepZombeo(key)
 
-      if(key === 'w' && !game.maze.current.walls[0]) {
+      if((key === 'w' || key === ' ') && !game.maze.current.walls[0]) {
         game.moveUp()
       } else if(key === 'd' && !game.maze.current.walls[1]) {
         game.moveRight()

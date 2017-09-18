@@ -1,7 +1,7 @@
 function Search(maze) {
   this.findExit = function(exitX, exitY) {
     var depth = 0
-    var queue = [{tile: maze.current, from: 'left'}]
+    var queue = [{tile: maze.current, from: 'bottom'}]
     do {
       var next = queue.shift()
       if(next.from !== 'top' && !next.tile.walls[0]) {

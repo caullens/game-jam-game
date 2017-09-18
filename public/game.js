@@ -18,8 +18,19 @@ function Game() {
   this.optimalMoves = 0
 
   this.maze = new Maze(this.size, assets.cellTextures, this.level)
-  this.exitX = 0
-  this.exitY = 0
+
+  this.exit = {
+    x: 0,
+    y: 0
+  }
+
+  this.startingPosition = {
+    x: 0,
+    y: 0
+  }
+
+  this.direction = undefined
+  this.jumpBuffer = 0
 
   this.newGame = function() {
     this.level = 0
@@ -42,15 +53,23 @@ function Game() {
     this.step = true
     this.dir = true
     assets.resetZombeoCounter()
-    this.exitX = Math.floor((Math.random() * this.columns))
-    this.exitY = Math.floor((Math.random() * this.columns))
-    while(dist(
-        this.maze.current.i * this.maze.current.w, this.maze.current.j * this.maze.current.w,
-        this.exitX * this.maze.current.w, this.exitY * this.maze.current.w) < 200) {
-      this.exitX = Math.floor((Math.random() * this.columns))
-      this.exitY = Math.floor((Math.random() * this.columns))
-    }
     assets.resetGhoulietCounter()
+  }
+
+  this.findRandomStartAndEnd = function() {
+    do {
+      this.exit.x = Math.floor((Math.random() * this.columns))
+      this.exit.y = Math.floor((Math.random() * this.columns))
+    } while(!this.maze.grid[this.maze.index(this.exit.x, this.exit.y)].walls[2])
+
+    do {
+      this.startingPosition.x = Math.floor((Math.random() * this.columns))
+      this.startingPosition.y = Math.floor((Math.random() * this.columns))
+    } while(
+      !this.maze.grid[this.maze.index(this.startingPosition.x, this.startingPosition.y)].walls[2]
+      || this.startingPosition.x == this.exit.x
+      || this.startingPosition.y == this.exit.y
+    )
   }
 
   this.checkForGameOver = function() {
@@ -77,8 +96,10 @@ function Game() {
     this.maze.draw()
     this.maze.current.highlight(assets.tombStone)
     if(this.maze.current.i === 0 && this.maze.current.j === 0) {
+      this.findRandomStartAndEnd()
+      this.maze.current = this.maze.grid[this.maze.index(this.startingPosition.x, this.startingPosition.y)]
       search = new Search(this.maze)
-      var depth = search.findExit(this.exitX, this.exitY)
+      var depth = search.findExit(this.exit.x, this.exit.y)
       this.optimalMoves += depth
       this.timer = floor(depth/this.level)
       if(this.easy) this.timer = ceil(this.timer * 1.5)
@@ -100,9 +121,12 @@ function Game() {
   this.play = function() {
     this.maze.draw()
     this.maze.current.highlight(assets.getZombeo())
-    this.maze.grid[this.exitX + this.exitY * this.columns].highlight(assets.getGhouliet())
+    this.maze.grid[this.maze.index(this.exit.x, this.exit.y)].highlight(assets.getGhouliet())
     if(frameCount%4 === 0) assets.titleStepGhouliet()
     if(frameCount%60 === 0 && Math.random() > 0.7) assets.playRandomMoan()
+    if(this.jumpBuffer === 0) this.applyGravity()
+    else this.jumpBuffer -= 1
+    if(frameCount%4 === 0) this.move()
 
     var elapsedTime = (millis()-this.startTime)/1000
     var para = select('.timer')
@@ -121,30 +145,43 @@ function Game() {
     text(diff.html(), 500, 580)
   }
 
+  this.move = function() {
+    if(this.direction && this.direction === 'right') this.moveRight()
+    if(this.direction && this.direction === 'left') this.moveLeft()
+  }
+
   this.moveRight = function() {
     this.distance++
-    this.maze.current = this.maze.grid[this.maze.current.i + this.columns*(this.maze.current.j) + 1]
+    if(!this.maze.current.walls[1]) this.maze.current = this.maze.grid[this.maze.index(this.maze.current.i, this.maze.current.j) + 1]
     this.maze.current.highlight(assets.getZombeo())
   }
 
-  this.moveUp = function() {
+  this.jump = function() {
     this.distance++
-    this.maze.current = this.maze.grid[this.maze.current.i + this.columns*(this.maze.current.j-1)]
-  }
-
-  this.moveDown = function() {
-    this.distance++
-    this.maze.current = this.maze.grid[this.maze.current.i + this.columns*(this.maze.current.j+1)]
+    this.jumpBuffer = 10
+    if(!this.maze.current.walls[0]) this.maze.current = this.maze.grid[this.maze.index(this.maze.current.i,this.maze.current.j-1)]
   }
 
   this.moveLeft = function() {
     this.distance++
-    this.maze.current = this.maze.grid[this.maze.current.i + this.columns*(this.maze.current.j) - 1]
+    if(!this.maze.current.walls[3]) this.maze.current = this.maze.grid[this.maze.index(this.maze.current.i, this.maze.current.j) - 1]
     this.maze.current.highlight(assets.getZombeo())
   }
 
+  this.setMoveDirection = function(direc) {
+    this.direction = direc
+  }
+
+  this.stopMoving = function(direc) {
+    if(this.direction === direc) this.direction = undefined
+  }
+
+  this.applyGravity = function() {
+    if(!this.maze.current.walls[2]) this.moveDown()
+  }
+
   this.atExitTile = function() {
-    return (this.maze.current.i === this.exitX && this.maze.current.j === this.exitY)
+    return (this.maze.current.i === this.exit.x && this.maze.current.j === this.exit.y)
   }
 
   this.findNextDivisible = function(divisor, current) {
